@@ -4,12 +4,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tellys Kitchen Catering</title>
+    <title>Tallys Kitchen Catering</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #145A32;
+            /* Deep Emerald */
+            --primary-dark: #0B3B1F;
+            --primary-light: #E8F5E9;
+            /* Very light emerald for backgrounds */
+            --primary-medium: #A9DFBF;
+            /* Soft green for borders/accents */
+            --text-color: #1B2631;
+            /* Dark Charcoal */
+            --text-light: #566573;
+            /* Grey for secondary text */
+            --bg-color: #FFFFFF;
+            --card-bg: #FAFAFA;
+
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            --spacing-narrow: 0.5rem;
+            --spacing-standard: 1rem;
+            --spacing-wide: 2rem;
+
+            --border-radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.5;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--primary-color);
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 900px;
+            /* Condensed width */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utilities */
+        .text-center {
+            text-align: center;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* SVG Patterns */
+        .pattern-bg {
+            background-color: var(--primary-light);
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23145A32' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Header / Compact Hero */
+        .header-compact {
+            padding: 3rem 0;
+            border-bottom: 3px solid var(--primary-color);
+            text-align: center;
+        }
+
+        .header-logo h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Info Bar - Condensed */
+        .info-bar {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 12px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--primary-medium);
+        }
+
+        .info-bar .container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .info-icon {
+            width: 18px;
+            height: 18px;
+            fill: var(--primary-medium);
+        }
+
+        /* Sections */
+        section {
+            padding: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Card Style Updates */
+        .menu-item {
+            background: white;
+            padding: 0;
+            /* Remove padding from container to let image be flush */
+            position: relative;
+            border-radius: 16px;
+            border: 1px solid var(--primary-light);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            overflow: hidden;
+            /* Ensure image corners get clipped */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-image-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/2;
+            object-fit: cover;
+            object-position: center bottom;
+            display: block;
+        }
+
+        .best-flavour-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.05em;
+            z-index: 2;
+            pointer-events: none;
+            /* Optional: add a small border or ring to make it pop */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(20, 90, 50, 0.1);
+            border-color: var(--primary-medium);
+        }
+
+        .menu-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+            color: var(--primary-color);
+        }
+
+        .menu-desc {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .menu-options {
+            margin-left: 0;
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .menu-options li {
+            padding-left: 1.2rem;
+            position: relative;
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-options li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .allergens {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: auto;
+            /* Pushes to bottom if flex container has height */
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--primary-light);
+            border-radius: 4px;
+            align-self: flex-start;
+            /* Ensures box only wraps text content */
+        }
+
+        /* Tag */
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: var(--primary-dark);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            align-self: flex-start;
+        }
+
+        .tag.secondary {
+            background-color: var(--primary-medium);
+            color: var(--primary-dark);
+        }
+
+        /* Pricing - Simple Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background-color: #fff;
+            border: 2px solid var(--primary-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin: 1rem 0;
+            font-family: var(--font-heading);
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .pricing-card ul {
+            text-align: left;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            border-top: 1px solid var(--primary-light);
+            padding-top: 1rem;
+        }
+
+        .pricing-card ul li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            margin: 1.5rem 0;
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-medium);
+        }
+
+        .contact-link:hover {
+            color: white;
+        }
+
+        /* Animations */
+        .visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .fade-in-up.visible {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-logo h1 {
+                font-size: 2.2rem;
+            }
+
+            .info-bar .container {
+                gap: 15px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -18,7 +427,7 @@
     <header class="header-compact pattern-bg fade-in-up">
         <div class="container">
             <div class="header-logo">
-                <h1>Tellys Kitchen</h1>
+                <h1>Tallys Kitchen</h1>
             </div>
             <p class="tagline">Authentic Indian Cuisine for Every Occasion</p>
         </div>
@@ -28,7 +437,6 @@
     <div class="info-bar">
         <div class="container">
             <div class="info-item">
-                <!-- Users Icon SVG -->
                 <svg class="info-icon" viewBox="0 0 24 24">
                     <path
                         d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -36,7 +444,6 @@
                 <span>Min 20-30 People</span>
             </div>
             <div class="info-item">
-                <!-- Leaf Icon SVG -->
                 <svg class="info-icon" viewBox="0 0 24 24">
                     <path
                         d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" />
@@ -44,7 +451,6 @@
                 <span>Vegetarian Only</span>
             </div>
             <div class="info-item">
-                <!-- Calendar Icon SVG -->
                 <svg class="info-icon" viewBox="0 0 24 24">
                     <path
                         d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z" />
@@ -72,7 +478,8 @@
                         <p class="menu-desc">Traditional stuffed flatbreads with fresh butter & yogurt.</p>
                         <ul class="menu-options">
                             <li>Aloo (Spiced Potato)</li>
-                            <li>Gobi (Cauliflower & Ginger)</li>
+                            <!-- Added Onion -->
+                            <li>Gobi (Cauliflower, Ginger & Onion)</li>
                         </ul>
                         <span class="allergens">Gluten, Dairy</span>
                     </div>
@@ -88,7 +495,8 @@
                         <p class="menu-desc">Golden crisp fritters, the perfect chai companion.</p>
                         <ul class="menu-options">
                             <li>Bread Cheese</li>
-                            <li>Aloo Palak (Spinach & Potato)</li>
+                            <!-- Added Onion -->
+                            <li>Aloo Palak (Spinach, Potato & Onion)</li>
                         </ul>
                         <span class="allergens">Gluten, Dairy</span>
                     </div>
@@ -111,50 +519,51 @@
                         <span class="tag">Fixed First Option</span>
                         <h3>Golgappa</h3>
                         <p class="menu-desc">Crispy puff balls filled with spicy tamarind water.</p>
-                        <div style="margin-top:0.5rem;">
-                            <span class="allergens">Gluten</span>
-                        </div>
+                        <span class="allergens">Gluten</span>
                     </div>
                 </div>
 
-                <!-- Card 2: Traditional Chaat (Choice) -->
+                <!-- Card 2: Aloo Tikki (Separate Card) -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Traditional Chaat.png" alt="Traditional Chaat" class="menu-item-image">
+                        <img src="images/Traditional Chaat.png" alt="Aloo Tikki" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
                         <span class="tag">Second Option (Choice)</span>
-                        <h3>Traditional Chaat</h3>
-                        <p class="menu-desc">Select one from the following:</p>
-                        <div style="display:flex; flex-direction:column; gap:0.5rem;">
-                            <div>
-                                <strong>Aloo Tikki:</strong> Spiced potato patties with chutney
-                                <span class="allergens" style="display:block; margin-top:2px;">Vegetarian, Gluten
-                                    Free</span>
-                            </div>
-                            <div>
-                                <strong>Papri Chaat:</strong> Crisp wafers with yogurt & spices
-                                <span class="allergens" style="display:block; margin-top:2px;">Gluten, Dairy</span>
-                            </div>
-                        </div>
+                        <h3>Aloo Tikki</h3>
+                        <p class="menu-desc">Spiced potato patties served with chutney.</p>
+                        <!-- Updated Allergens: Removed Gluten Free, Added Gluten (implied by "not gluten free") -->
+                        <span class="allergens">Vegetarian, Gluten</span>
                     </div>
                 </div>
 
-                <!-- Card 3: Indo-Chinese (Choice) -->
+                <!-- Card 3: Papri Chaat (Separate Card) -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Cheese Chilli.png" alt="Indo-Chinese" class="menu-item-image">
+                        <img src="images/Traditional Chaat.png" alt="Papri Chaat" class="menu-item-image">
+                        <div class="best-flavour-badge">Best Flavour</div>
+                    </div>
+                    <div class="menu-item-content">
+                        <span class="tag">Second Option (Choice)</span>
+                        <h3>Papri Chaat</h3>
+                        <p class="menu-desc">Crisp wafers topped with yogurt & spices.</p>
+                        <span class="allergens">Gluten, Dairy</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Indo-Chinese (Alternative) -->
+                <div class="menu-item fade-in-up">
+                    <div class="menu-image-wrapper">
+                        <img src="images/Cheese Chilli.png" alt="Cheese Chilli" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
                         <span class="tag">Second Option (Alternative)</span>
-                        <h3>Indo-Chinese</h3>
-                        <p class="menu-desc">Or select this premium option:</p>
-                        <div>
-                            <strong>Cheese Chilli:</strong> Paneer in spicy Indo-Chinese sauce
-                            <span class="allergens" style="display:block; margin-top:2px;">Dairy, Soy</span>
-                        </div>
+                        <h3>Cheese Chilli</h3>
+                        <p class="menu-desc">Paneer tossed in a spicy premium Indo-Chinese sauce.</p>
+                        <!-- Removed Soy -->
+                        <span class="allergens">Dairy</span>
                     </div>
                 </div>
             </div>
@@ -226,7 +635,6 @@
                     <ul>
                         <li>2 Premium Starters</li>
                         <li>1 Signature Dessert</li>
-                        <li>Full Buffest Service</li>
                     </ul>
                 </div>
 
@@ -236,7 +644,6 @@
                     <ul>
                         <li>1 Prantha Selection</li>
                         <li>1 Pakora Selection</li>
-                        <li>Accompaniments included</li>
                     </ul>
                 </div>
             </div>
@@ -249,26 +656,59 @@
         <div class="container">
             <h2>Book Your Event</h2>
             <div class="contact-info">
-                <a href="mailto:contact@tellyskitchen.com" class="contact-link">
-                    <svg viewBox="0 0 24 24" style="fill:currentColor; width:20px; height:20px;">
-                        <path
-                            d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                    </svg>
-                    contact@tellyskitchen.com
-                </a>
                 <span class="contact-link">
                     <svg viewBox="0 0 24 24" style="fill:currentColor; width:20px; height:20px;">
                         <path
                             d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
                     </svg>
-                    +44 123 456 7890
+                    07766679214
+                </span>
+                <span class="contact-link">
+                    <svg viewBox="0 0 24 24" style="fill:currentColor; width:20px; height:20px;">
+                        <path
+                            d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                    </svg>
+                    07789563226
                 </span>
             </div>
-            <span class="copyright">© 2024 Tellys Kitchen Catering</span>
+            <!-- Updated Copyright Name -->
+            <span class="copyright">© 2024 Tallys Kitchen Catering</span>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Add fade-in-up class if it's not already there by default (like in hero)
+                        if (!entry.target.classList.contains('fade-in-up')) {
+                            entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all menu items and pricing cards
+            const animatedElements = document.querySelectorAll('.menu-item, .pricing-card, .header-compact');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0'; // Hide initially
+                observer.observe(el);
+            });
+
+            console.log("Tallys Kitchen Catering site loaded successfully");
+        });
+    </script>
 </body>
 
 </html>
