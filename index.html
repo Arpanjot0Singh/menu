@@ -671,8 +671,8 @@
                     </select>
                 </div>
                 <div class="calc-group">
-                    <label for="guest-count">Number of People</label>
-                    <input type="number" id="guest-count" min="20" value="20">
+                    <label for="guest-count">Number of People (20-30)</label>
+                    <input type="number" id="guest-count" min="20" max="30" value="20">
                 </div>
                 <div class="calc-total">
                     Total: <span id="total-cost">£300</span>
@@ -725,7 +725,7 @@
             <div class="hero-badges">
                 <span class="badge">
                     <svg class="info-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
-                    Min 20-30 People
+                    Min 20 - Max 30 People
                 </span>
                 <span class="badge">
                     <svg class="info-icon" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" /></svg>
@@ -1091,13 +1091,19 @@
 
             function calculateCost() {
                 const guests = parseInt(guestCountInput.value) || 0;
-                // Minimum is structurally enforced to 20 for logic, but we show the exact math
-                const effectiveGuests = Math.max(20, guests);
+
+                // Enforce Min 20 and Max 30 structurally
+                let effectiveGuests = guests;
+                if (effectiveGuests < 20) effectiveGuests = 20;
+                if (effectiveGuests > 30) effectiveGuests = 30;
+
                 const pricePerPerson = parseInt(packageSelect.value);
                 const total = effectiveGuests * pricePerPerson;
 
                 if (guests < 20) {
                     totalCostDisplay.textContent = '£' + total + ' (Min 20)';
+                } else if (guests > 30) {
+                    totalCostDisplay.textContent = '£' + total + ' (Max 30)';
                 } else {
                     totalCostDisplay.textContent = '£' + total;
                 }
