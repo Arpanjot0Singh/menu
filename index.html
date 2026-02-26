@@ -28,7 +28,7 @@
             --spacing-wide: 2rem;
 
             --border-radius: 8px;
-            --transition: all 0.2s ease-in-out;
+            --transition: all 0.3s ease-in-out;
         }
 
         * {
@@ -81,7 +81,7 @@
             background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23145A32' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
         }
 
-        /* --- NEW: Navigation Bar --- */
+        /* --- Navigation Bar --- */
         .navbar {
             position: sticky;
             top: 0;
@@ -109,12 +109,6 @@
             color: var(--primary-color);
             width: 28px;
             height: 28px;
-        }
-        /* Styling for when you add your own image logo */
-        .nav-logo img {
-            height: 32px;
-            width: auto;
-            display: block;
         }
         .nav-links {
             display: flex;
@@ -148,7 +142,7 @@
             fill: currentColor;
         }
 
-        /* --- UPDATED: Hero Section --- */
+        /* --- Hero Section --- */
         .header-hero {
             padding: 5rem 0 4rem;
             border-bottom: 3px solid var(--primary-color);
@@ -191,10 +185,160 @@
             fill: var(--primary-medium);
         }
 
+        /* --- NEW: Selection Panel (Cart) --- */
+        .selection-panel {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 320px;
+            height: calc(100vh - 140px);
+            background: var(--bg-color);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+            z-index: 999;
+            transition: var(--transition);
+            transform: translateX(-100%);
+            display: flex;
+            border-right: 2px solid var(--primary-color);
+            border-top: 2px solid var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            border-radius: 0 12px 12px 0;
+        }
+        .selection-panel.visible {
+            transform: translateX(0);
+        }
+        .selection-panel.collapsed {
+            transform: translateX(calc(-100% + 40px));
+        }
+        .panel-toggle {
+            position: absolute;
+            right: -40px;
+            top: 20px;
+            width: 40px;
+            height: 48px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 4px 0 8px rgba(0,0,0,0.1);
+        }
+        .panel-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+            transition: var(--transition);
+        }
+        .selection-panel.collapsed .panel-toggle svg {
+            transform: rotate(180deg);
+        }
+        .panel-content {
+            padding: 1.5rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .panel-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+        }
+        .selected-items {
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+        .selected-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed var(--primary-light);
+            font-size: 0.9rem;
+        }
+        .selected-item-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .selected-item-cat {
+            font-size: 0.75rem;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: capitalize;
+        }
+
+        /* Cost Calculator within Panel */
+        .calculator-section {
+            background: var(--primary-light);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary-medium);
+        }
+        .calculator-section h4 {
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            color: var(--primary-dark);
+        }
+        .calc-group {
+            margin-bottom: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .calc-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .calc-group select, .calc-group input {
+            padding: 0.6rem;
+            border: 1px solid var(--primary-medium);
+            border-radius: 4px;
+            font-family: var(--font-body);
+            width: 100%;
+        }
+        .calc-total {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            border-top: 2px solid var(--primary-medium);
+            padding-top: 0.8rem;
+        }
+
+        /* Custom Alert Notification */
+        .custom-alert {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #E74C3C;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+            font-weight: 600;
+            transition: var(--transition);
+            opacity: 0;
+            text-align: center;
+            max-width: 90%;
+        }
+        .custom-alert.show {
+            top: 100px;
+            opacity: 1;
+        }
+
         /* --- Sections --- */
         section {
             padding: 4rem 0;
-            scroll-margin-top: 80px; /* Accounts for sticky nav height */
+            scroll-margin-top: 80px;
         }
         .section-title {
             font-size: 2rem;
@@ -319,7 +463,7 @@
             align-self: flex-start;
         }
 
-        /* --- NEW: Selection Button --- */
+        /* --- Selection Button --- */
         .btn-select {
             margin-top: auto;
             padding: 0.6rem 1rem;
@@ -394,7 +538,7 @@
             color: var(--text-color);
         }
 
-        /* --- UPDATED: Footer --- */
+        /* --- Footer --- */
         footer {
             background-color: var(--primary-dark);
             color: white;
@@ -483,6 +627,13 @@
             .nav-links li { width: 100%; text-align: center; padding: 0.5rem 1rem; }
             .nav-links a { display: block; }
 
+            /* Responsive Selection Panel */
+            .selection-panel {
+                width: 280px;
+                height: calc(100vh - 80px); /* Adjust height for mobile */
+                top: 80px;
+            }
+
             .footer-grid { text-align: center; }
             .footer-contact { align-items: center; }
             .footer-links a:hover { padding-left: 0; }
@@ -492,12 +643,48 @@
 
 <body>
 
+    <!-- Selection Limits Alert -->
+    <div id="custom-alert" class="custom-alert"></div>
+
+    <!-- Left Selection Panel (Cart) -->
+    <div id="selection-panel" class="selection-panel">
+        <div class="panel-toggle" id="panel-toggle">
+            <svg viewBox="0 0 24 24">
+                <!-- Chevron arrow pointing right initially (when collapsed) or left (when open) based on css transform -->
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+            </svg>
+        </div>
+        <div class="panel-content">
+            <h3>Your Menu Selection</h3>
+
+            <div id="selected-items-list" class="selected-items">
+                <!-- Selected items will dynamically populate here -->
+            </div>
+
+            <div class="calculator-section">
+                <h4>Cost Calculator</h4>
+                <div class="calc-group">
+                    <label for="package-select">Package Type</label>
+                    <select id="package-select">
+                        <option value="15">Standard Party (£15/pp)</option>
+                        <option value="5">Breakfast Special (£5/pp)</option>
+                    </select>
+                </div>
+                <div class="calc-group">
+                    <label for="guest-count">Number of People</label>
+                    <input type="number" id="guest-count" min="20" value="20">
+                </div>
+                <div class="calc-total">
+                    Total: <span id="total-cost">£300</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Sticky Navigation Bar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="nav-logo">
-                <!-- If you have an image logo, uncomment the img line below and delete the <svg> -->
-                <!-- <img src="images/logo.png" alt="Tallys Kitchen Logo"> -->
                 <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="4" r="2"/>
                     <path d="M4 13a8 8 0 0 1 16 0"/>
@@ -526,7 +713,6 @@
     <header class="header-hero pattern-bg fade-in-up">
         <div class="container">
             <div class="header-logo flex-center" style="gap: 1rem; flex-direction: column;">
-                <!-- <img src="images/logo.png" alt="Tallys Kitchen Logo" style="height: 80px;"> -->
                 <svg style="width: 64px; height: 64px; color: var(--primary-color);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="4" r="2"/>
                     <path d="M4 13a8 8 0 0 1 16 0"/>
@@ -536,7 +722,6 @@
             </div>
             <p class="tagline">Authentic Indian Cuisine for Every Occasion</p>
 
-            <!-- Info badges integrated cleanly into hero -->
             <div class="hero-badges">
                 <span class="badge">
                     <svg class="info-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
@@ -819,7 +1004,6 @@
                 navLinks.classList.toggle('active');
             });
 
-            // Close mobile menu when a link is clicked
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.addEventListener('click', () => {
                     navLinks.classList.remove('active');
@@ -851,26 +1035,135 @@
                 observer.observe(el);
             });
 
-            // --- Menu Selection Logic ---
+            // --- Menu Selection & Limit Logic ---
+            const selectionPanel = document.getElementById('selection-panel');
+            const panelToggle = document.getElementById('panel-toggle');
+            const selectedItemsList = document.getElementById('selected-items-list');
+            const guestCountInput = document.getElementById('guest-count');
+            const packageSelect = document.getElementById('package-select');
+            const totalCostDisplay = document.getElementById('total-cost');
+            const customAlert = document.getElementById('custom-alert');
+
+            let selectedItems = [];
+
+            // Define strict limits based on the pricing packages image
+            const categoryLimits = {
+                'breakfast': 2, // Max 2 (e.g. 1 Prantha, 1 Pakora)
+                'starters': 2,  // Max 2 Premium Starters
+                'dessert': 1    // Max 1 Signature Dessert
+            };
+
+            function showAlert(message) {
+                customAlert.textContent = message;
+                customAlert.classList.add('show');
+                setTimeout(() => {
+                    customAlert.classList.remove('show');
+                }, 4000);
+            }
+
+            function updatePanelUI() {
+                // Toggle Panel Visibility
+                if (selectedItems.length > 0) {
+                    selectionPanel.classList.add('visible');
+                } else {
+                    selectionPanel.classList.remove('visible');
+                    selectionPanel.classList.remove('collapsed'); // Reset if empty
+                }
+
+                // Render Selected Items
+                selectedItemsList.innerHTML = '';
+                if (selectedItems.length === 0) {
+                    selectedItemsList.innerHTML = '<p style="color: var(--text-light); font-size: 0.9rem;">No items selected yet.</p>';
+                } else {
+                    selectedItems.forEach(item => {
+                        const row = document.createElement('div');
+                        row.className = 'selected-item-row';
+                        row.innerHTML = `
+                            <span class="selected-item-name">${item.name}</span>
+                            <span class="selected-item-cat">${item.category === 'starters' ? 'Starter' : item.category}</span>
+                        `;
+                        selectedItemsList.appendChild(row);
+                    });
+                }
+
+                calculateCost();
+            }
+
+            function calculateCost() {
+                const guests = parseInt(guestCountInput.value) || 0;
+                // Minimum is structurally enforced to 20 for logic, but we show the exact math
+                const effectiveGuests = Math.max(20, guests);
+                const pricePerPerson = parseInt(packageSelect.value);
+                const total = effectiveGuests * pricePerPerson;
+
+                if (guests < 20) {
+                    totalCostDisplay.textContent = '£' + total + ' (Min 20)';
+                } else {
+                    totalCostDisplay.textContent = '£' + total;
+                }
+            }
+
+            // Input Listeners for the calculator
+            guestCountInput.addEventListener('input', calculateCost);
+            packageSelect.addEventListener('change', calculateCost);
+
+            // Toggle side panel manually
+            panelToggle.addEventListener('click', () => {
+                selectionPanel.classList.toggle('collapsed');
+            });
+
+            // Button Click logic
             const selectButtons = document.querySelectorAll('.btn-select');
             selectButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const menuItem = this.closest('.menu-item');
+                    const itemName = menuItem.querySelector('h3').textContent;
+                    const category = menuItem.closest('section').id; // Gets 'breakfast', 'starters', or 'dessert'
 
                     if (this.classList.contains('selected')) {
-                        // Deselect
+                        // Deselect flow
                         this.classList.remove('selected');
                         this.textContent = 'Select for Menu';
                         menuItem.classList.remove('selected');
+
+                        selectedItems = selectedItems.filter(item => item.name !== itemName);
+                        updatePanelUI();
                     } else {
-                        // Select
+                        // Selection flow with Strict Limits checking
+                        const currentCategoryCount = selectedItems.filter(item => item.category === category).length;
+
+                        if (currentCategoryCount >= categoryLimits[category]) {
+                            if (category === 'starters') {
+                                showAlert('The Standard Party package limits you to 2 Premium Starters.');
+                            } else if (category === 'dessert') {
+                                showAlert('The Standard Party package limits you to 1 Signature Dessert.');
+                            } else if (category === 'breakfast') {
+                                showAlert('The Breakfast package limits you to 2 Selections (e.g. 1 Prantha, 1 Pakora).');
+                            }
+                            return; // Stop them from selecting it
+                        }
+
+                        // Apply Selection
                         this.classList.add('selected');
                         this.innerHTML = '&#10003; Selected';
                         menuItem.classList.add('selected');
+
+                        selectedItems.push({ name: itemName, category: category });
+
+                        // Try to auto-suggest the correct package in calculator based on what they are selecting
+                        if(category === 'breakfast' && selectedItems.filter(i => i.category !== 'breakfast').length === 0) {
+                            packageSelect.value = "5"; // Breakfast package
+                        } else if (category === 'starters' || category === 'dessert') {
+                            packageSelect.value = "15"; // Standard package
+                        }
+
+                        updatePanelUI();
                     }
                 });
             });
 
+            // Run on initial load
+            updatePanelUI();
             console.log("Tallys Kitchen Catering site loaded successfully");
         });
     </script>
