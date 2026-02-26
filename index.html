@@ -664,18 +664,11 @@
             <div class="calculator-section">
                 <h4>Cost Calculator</h4>
                 <div class="calc-group">
-                    <label for="package-select">Package Type</label>
-                    <select id="package-select">
-                        <option value="15">Standard Party (£15/pp)</option>
-                        <option value="5">Breakfast Special (£5/pp)</option>
-                    </select>
-                </div>
-                <div class="calc-group">
                     <label for="guest-count">Number of People (20-30)</label>
                     <input type="number" id="guest-count" min="20" max="30" value="20">
                 </div>
                 <div class="calc-total">
-                    Total: <span id="total-cost">£300</span>
+                    Total: <span id="total-cost">£0</span>
                 </div>
             </div>
         </div>
@@ -1040,7 +1033,6 @@
             const panelToggle = document.getElementById('panel-toggle');
             const selectedItemsList = document.getElementById('selected-items-list');
             const guestCountInput = document.getElementById('guest-count');
-            const packageSelect = document.getElementById('package-select');
             const totalCostDisplay = document.getElementById('total-cost');
             const customAlert = document.getElementById('custom-alert');
 
@@ -1097,12 +1089,19 @@
                 if (effectiveGuests < 20) effectiveGuests = 20;
                 if (effectiveGuests > 30) effectiveGuests = 30;
 
-                const pricePerPerson = parseInt(packageSelect.value);
+                // Calculate dynamic price per person based on active selections
+                let pricePerPerson = 0;
+                const hasBreakfast = selectedItems.some(item => item.category === 'breakfast');
+                const hasStandard = selectedItems.some(item => item.category === 'starters' || item.category === 'dessert');
+
+                if (hasBreakfast) pricePerPerson += 5;   // Add £5 if any breakfast item is selected
+                if (hasStandard) pricePerPerson += 15;   // Add £15 if any starter or dessert is selected
+
                 const total = effectiveGuests * pricePerPerson;
 
-                if (guests < 20) {
+                if (guests < 20 && selectedItems.length > 0) {
                     totalCostDisplay.textContent = '£' + total + ' (Min 20)';
-                } else if (guests > 30) {
+                } else if (guests > 30 && selectedItems.length > 0) {
                     totalCostDisplay.textContent = '£' + total + ' (Max 30)';
                 } else {
                     totalCostDisplay.textContent = '£' + total;
@@ -1111,7 +1110,6 @@
 
             // Input Listeners for the calculator
             guestCountInput.addEventListener('input', calculateCost);
-            packageSelect.addEventListener('change', calculateCost);
 
             // Toggle side panel manually
             panelToggle.addEventListener('click', () => {
@@ -1155,13 +1153,6 @@
                         menuItem.classList.add('selected');
 
                         selectedItems.push({ name: itemName, category: category });
-
-                        // Try to auto-suggest the correct package in calculator based on what they are selecting
-                        if(category === 'breakfast' && selectedItems.filter(i => i.category !== 'breakfast').length === 0) {
-                            packageSelect.value = "5"; // Breakfast package
-                        } else if (category === 'starters' || category === 'dessert') {
-                            packageSelect.value = "15"; // Standard package
-                        }
 
                         updatePanelUI();
                     }
