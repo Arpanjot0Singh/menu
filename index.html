@@ -12,16 +12,11 @@
     <style>
         :root {
             --primary-color: #145A32;
-            /* Deep Emerald */
             --primary-dark: #0B3B1F;
             --primary-light: #E8F5E9;
-            /* Very light emerald for backgrounds */
             --primary-medium: #A9DFBF;
-            /* Soft green for borders/accents */
             --text-color: #1B2631;
-            /* Dark Charcoal */
             --text-light: #566573;
-            /* Grey for secondary text */
             --bg-color: #FFFFFF;
             --card-bg: #FAFAFA;
 
@@ -55,10 +50,7 @@
             overflow-x: hidden;
         }
 
-        h1,
-        h2,
-        h3,
-        h4 {
+        h1, h2, h3, h4 {
             font-family: var(--font-heading);
             font-weight: 600;
             color: var(--primary-color);
@@ -77,41 +69,95 @@
 
         .container {
             max-width: 900px;
-            /* Condensed width */
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Utilities */
-        .text-center {
-            text-align: center;
-        }
+        .text-center { text-align: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
 
-        .flex-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* SVG Patterns */
         .pattern-bg {
             background-color: var(--primary-light);
             background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23145A32' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
         }
 
-        /* Header / Compact Hero */
-        .header-compact {
-            padding: 3rem 0;
+        /* --- NEW: Navigation Bar --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: var(--bg-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+        .nav-logo-icon {
+            color: var(--primary-color);
+            width: 28px;
+            height: 28px;
+        }
+        /* Styling for when you add your own image logo */
+        .nav-logo img {
+            height: 32px;
+            width: auto;
+            display: block;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            padding: 0.5rem 1.2rem;
+            background-color: #FFFFFF;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            display: inline-block;
+        }
+        .nav-links a:hover {
+            color: #FFFFFF;
+            background-color: var(--primary-color);
+        }
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--primary-dark);
+        }
+        .hamburger svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* --- UPDATED: Hero Section --- */
+        .header-hero {
+            padding: 5rem 0 4rem;
             border-bottom: 3px solid var(--primary-color);
             text-align: center;
         }
-
         .header-logo h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 0.5rem;
             color: var(--primary-dark);
         }
-
         .tagline {
             font-size: 1.2rem;
             color: var(--text-light);
@@ -119,41 +165,36 @@
             letter-spacing: 0.05em;
             text-transform: uppercase;
         }
-
-        /* Info Bar - Condensed */
-        .info-bar {
-            background-color: var(--primary-dark);
-            color: white;
-            padding: 12px 0;
-            font-size: 0.9rem;
-            border-bottom: 1px solid var(--primary-medium);
-        }
-
-        .info-bar .container {
+        .hero-badges {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 2rem;
         }
-
-        .info-item {
+        .hero-badges .badge {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
             font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
-        .info-icon {
+        .hero-badges .info-icon {
             width: 18px;
             height: 18px;
             fill: var(--primary-medium);
         }
 
-        /* Sections */
+        /* --- Sections --- */
         section {
-            padding: 3rem 0;
+            padding: 4rem 0;
+            scroll-margin-top: 80px; /* Accounts for sticky nav height */
         }
-
         .section-title {
             font-size: 2rem;
             margin-bottom: 2rem;
@@ -165,35 +206,29 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Menu Grid */
+        /* --- Menu Grid --- */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
-
-        /* Card Style Updates */
         .menu-item {
             background: white;
             padding: 0;
-            /* Remove padding from container to let image be flush */
             position: relative;
             border-radius: 16px;
             border: 1px solid var(--primary-light);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             transition: var(--transition);
             overflow: hidden;
-            /* Ensure image corners get clipped */
             display: flex;
             flex-direction: column;
         }
-
         .menu-image-wrapper {
             position: relative;
             width: 100%;
         }
-
         .menu-item-image {
             width: 100%;
             height: auto;
@@ -202,7 +237,6 @@
             object-position: center bottom;
             display: block;
         }
-
         .best-flavour-badge {
             position: absolute;
             bottom: 10px;
@@ -218,48 +252,40 @@
             letter-spacing: 0.05em;
             z-index: 2;
             pointer-events: none;
-            /* Optional: add a small border or ring to make it pop */
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
         .menu-item-content {
             padding: 1.5rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
-
         .menu-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(20, 90, 50, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(20, 90, 50, 0.1);
             border-color: var(--primary-medium);
         }
-
         .menu-item h3 {
             font-size: 1.3rem;
             margin-bottom: 0.25rem;
             color: var(--primary-color);
         }
-
         .menu-desc {
             font-size: 0.95rem;
             color: var(--text-light);
             font-style: italic;
             margin-bottom: 0.75rem;
         }
-
         .menu-options {
             margin-left: 0;
             font-size: 0.95rem;
             color: var(--text-color);
         }
-
         .menu-options li {
             padding-left: 1.2rem;
             position: relative;
             margin-bottom: 0.25rem;
         }
-
         .menu-options li::before {
             content: '•';
             color: var(--primary-color);
@@ -267,21 +293,17 @@
             left: 0;
             font-weight: bold;
         }
-
         .allergens {
             font-size: 0.75rem;
             color: var(--text-light);
-            margin-top: auto;
-            /* Pushes to bottom if flex container has height */
+            margin-top: 1rem;
+            margin-bottom: 1rem;
             display: inline-block;
             padding: 2px 8px;
             background: var(--primary-light);
             border-radius: 4px;
             align-self: flex-start;
-            /* Ensures box only wraps text content */
         }
-
-        /* Tag */
         .tag {
             display: inline-block;
             padding: 2px 8px;
@@ -296,18 +318,40 @@
             align-self: flex-start;
         }
 
-        .tag.secondary {
-            background-color: var(--primary-medium);
-            color: var(--primary-dark);
+        /* --- NEW: Selection Button --- */
+        .btn-select {
+            margin-top: auto;
+            padding: 0.6rem 1rem;
+            background-color: #FFFFFF;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+        }
+        .btn-select:hover {
+            background-color: var(--primary-light);
+        }
+        .btn-select.selected {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .menu-item.selected {
+            border-color: var(--primary-color);
+            border-width: 2px;
+            box-shadow: 0 8px 16px rgba(20, 90, 50, 0.15);
         }
 
-        /* Pricing - Simple Cards */
+        /* --- Pricing Grid --- */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
-
         .pricing-card {
             background-color: #fff;
             border: 2px solid var(--primary-light);
@@ -316,17 +360,15 @@
             text-align: center;
             transition: var(--transition);
         }
-
         .pricing-card:hover {
             border-color: var(--primary-color);
             background-color: var(--primary-light);
+            transform: translateY(-5px);
         }
-
         .pricing-card h3 {
             font-size: 1.4rem;
             margin-bottom: 0.5rem;
         }
-
         .price {
             font-size: 2.5rem;
             font-weight: 700;
@@ -334,13 +376,11 @@
             margin: 1rem 0;
             font-family: var(--font-heading);
         }
-
         .price span {
             font-size: 1rem;
             color: var(--text-light);
             font-weight: 400;
         }
-
         .pricing-card ul {
             text-align: left;
             margin-top: 1.5rem;
@@ -348,117 +388,170 @@
             border-top: 1px solid var(--primary-light);
             padding-top: 1rem;
         }
-
         .pricing-card ul li {
             margin-bottom: 0.5rem;
             color: var(--text-color);
         }
 
-        /* Footer */
+        /* --- UPDATED: Footer --- */
         footer {
             background-color: var(--primary-dark);
             color: white;
-            padding: 3rem 0;
-            text-align: center;
-            margin-top: 3rem;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
         }
-
-        .contact-info {
-            margin: 1.5rem 0;
-            font-size: 1rem;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: left;
+            margin-bottom: 3rem;
+        }
+        footer h3, footer h4 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p {
+            color: var(--primary-medium);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .footer-links ul li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links a {
+            color: var(--primary-medium);
+            transition: all 0.2s ease;
+        }
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        .footer-contact {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 1rem;
         }
-
         .contact-link {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
             color: var(--primary-medium);
         }
-
         .contact-link:hover {
             color: white;
         }
-
-        /* Animations */
-        .visible {
-            animation: fadeInUp 0.6s ease-out forwards;
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            color: var(--primary-medium);
         }
 
-        .fade-in-up.visible {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
+        /* --- Animations --- */
+        .visible { animation: fadeInUp 0.6s ease-out forwards; }
+        .fade-in-up { opacity: 0; }
+        .fade-in-up.visible { animation: fadeInUp 0.6s ease-out forwards; }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 600px) {
-            .header-logo h1 {
-                font-size: 2.2rem;
-            }
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            .header-logo h1 { font-size: 2.5rem; }
+            .hero-badges { flex-direction: column; align-items: center; gap: 0.8rem; }
 
-            .info-bar .container {
-                gap: 15px;
-            }
-
-            .contact-info {
+            /* Mobile Nav Toggle */
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
                 flex-direction: column;
-                gap: 15px;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-color);
+                padding: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                border-top: 1px solid var(--primary-light);
             }
+            .nav-links.active { display: flex; }
+            .nav-links li { width: 100%; text-align: center; padding: 0.5rem 1rem; }
+            .nav-links a { display: block; }
+
+            .footer-grid { text-align: center; }
+            .footer-contact { align-items: center; }
+            .footer-links a:hover { padding-left: 0; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Header / Hero -->
-    <header class="header-compact pattern-bg fade-in-up">
+    <!-- Sticky Navigation Bar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="nav-logo">
+                <!-- If you have an image logo, uncomment the img line below and delete the <svg> -->
+                <!-- <img src="images/logo.png" alt="Tallys Kitchen Logo"> -->
+                <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="4" r="2"/>
+                    <path d="M4 13a8 8 0 0 1 16 0"/>
+                    <rect x="2" y="13" width="20" height="3" rx="1"/>
+                </svg>
+                Tallys Kitchen
+            </a>
+
+            <!-- Hamburger button for mobile -->
+            <button class="hamburger" aria-label="Toggle navigation">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="#breakfast">Breakfast</a></li>
+                <li><a href="#starters">Starters</a></li>
+                <li><a href="#dessert">Desserts</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="header-hero pattern-bg fade-in-up">
         <div class="container">
-            <div class="header-logo">
-                <h1>Tallys Kitchen</h1>
+            <div class="header-logo flex-center" style="gap: 1rem; flex-direction: column;">
+                <!-- <img src="images/logo.png" alt="Tallys Kitchen Logo" style="height: 80px;"> -->
+                <svg style="width: 64px; height: 64px; color: var(--primary-color);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="4" r="2"/>
+                    <path d="M4 13a8 8 0 0 1 16 0"/>
+                    <rect x="2" y="13" width="20" height="3" rx="1"/>
+                </svg>
+                <h1 style="margin-bottom: 0;">Tallys Kitchen</h1>
             </div>
             <p class="tagline">Authentic Indian Cuisine for Every Occasion</p>
+
+            <!-- Info badges integrated cleanly into hero -->
+            <div class="hero-badges">
+                <span class="badge">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
+                    Min 20-30 People
+                </span>
+                <span class="badge">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" /></svg>
+                    Vegetarian Only
+                </span>
+                <span class="badge">
+                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z" /></svg>
+                    Book 2 Weeks Ahead
+                </span>
+            </div>
         </div>
     </header>
-
-    <!-- Info Bar -->
-    <div class="info-bar">
-        <div class="container">
-            <div class="info-item">
-                <svg class="info-icon" viewBox="0 0 24 24">
-                    <path
-                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                </svg>
-                <span>Min 20-30 People</span>
-            </div>
-            <div class="info-item">
-                <svg class="info-icon" viewBox="0 0 24 24">
-                    <path
-                        d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" />
-                </svg>
-                <span>Vegetarian Only</span>
-            </div>
-            <div class="info-item">
-                <svg class="info-icon" viewBox="0 0 24 24">
-                    <path
-                        d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z" />
-                </svg>
-                <span>Book 2 Weeks Ahead</span>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <main class="container">
@@ -466,7 +559,6 @@
         <!-- Breakfast Section -->
         <section id="breakfast">
             <div class="section-title">Breakfast</div>
-
             <div class="menu-grid">
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
@@ -482,6 +574,7 @@
                             <li>Broccoli and Cheese</li>
                         </ul>
                         <span class="allergens">Gluten, Dairy</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
@@ -498,6 +591,7 @@
                             <li>Aloo Palak (Spinach, Potato & Onion)</li>
                         </ul>
                         <span class="allergens">Gluten, Dairy</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
             </div>
@@ -506,9 +600,7 @@
         <!-- Starters Section -->
         <section id="starters">
             <div class="section-title">Starters</div>
-
             <div class="menu-grid">
-                <!-- Card 1: Golgappa (Fixed) -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
                         <img src="images/Golgappa.png" alt="Golgappa" class="menu-item-image">
@@ -519,10 +611,10 @@
                         <h3>Golgappa</h3>
                         <p class="menu-desc">Crispy puff balls filled with spicy tamarind water.</p>
                         <span class="allergens">Gluten</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
-                <!-- Card 2: Aloo Tikki (Separate Card) -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
                         <img src="images/Aloo Tikki.png" alt="Aloo Tikki" class="menu-item-image">
@@ -533,10 +625,10 @@
                         <h3>Aloo Tikki</h3>
                         <p class="menu-desc">Spiced potato patties served with chutney.</p>
                         <span class="allergens">Vegetarian, Gluten</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
-                <!-- Card 3: Papri Chaat (Separate Card) -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
                         <img src="images/Traditional Chaat.png" alt="Papri Chaat" class="menu-item-image">
@@ -547,10 +639,10 @@
                         <h3>Papri Chaat</h3>
                         <p class="menu-desc">Crisp wafers topped with yogurt & spices.</p>
                         <span class="allergens">Gluten, Dairy</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
-                <!-- Card 4: Indo-Chinese (Alternative) -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
                         <img src="images/Cheese Chilli.png" alt="Cheese Chilli" class="menu-item-image">
@@ -561,6 +653,7 @@
                         <h3>Cheese Chilli</h3>
                         <p class="menu-desc">Paneer tossed in a spicy premium Indo-Chinese sauce.</p>
                         <span class="allergens">Dairy</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
             </div>
@@ -569,7 +662,6 @@
         <!-- Dessert Section -->
         <section id="dessert">
             <div class="section-title">Dessert</div>
-
             <div class="menu-grid">
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
@@ -580,6 +672,7 @@
                         <h3>Rasmalai</h3>
                         <p class="menu-desc">Soft cottage cheese dumplings in saffron milk.</p>
                         <span class="allergens">Dairy, Nuts</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
@@ -592,6 +685,7 @@
                         <h3>Fruit Custard</h3>
                         <p class="menu-desc">Velvety vanilla custard with seasonal fruits.</p>
                         <span class="allergens">Dairy</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
@@ -604,6 +698,7 @@
                         <h3>Gajrela</h3>
                         <p class="menu-desc">Classic carrot pudding slow-cooked with milk.</p>
                         <span class="allergens">Dairy, Nuts</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
@@ -616,10 +711,10 @@
                         <h3>Rice Kheer</h3>
                         <p class="menu-desc">Creamy rice pudding garnished with almonds.</p>
                         <span class="allergens">Dairy, Nuts</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
 
-                <!-- Card 5: Mutanjan -->
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
                         <img src="images/Mutanjan.png" alt="Mutanjan" class="menu-item-image">
@@ -629,15 +724,15 @@
                         <h3>Mutanjan</h3>
                         <p class="menu-desc">Traditional seven-color sweet zarda rice garnished with nuts and dry fruits.</p>
                         <span class="allergens">Dairy, Nuts</span>
+                        <button class="btn-select">Select for Menu</button>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Pricing Section -->
-        <section id="pricing" class="pattern-bg" style="border-radius: 8px; padding: 2rem;">
+        <section id="pricing" class="pattern-bg" style="border-radius: 8px; padding: 3rem 2rem;">
             <h2 class="text-center" style="margin-bottom: 2rem;">Pricing Packages</h2>
-
             <div class="pricing-grid">
                 <div class="pricing-card fade-in-up">
                     <h3>Standard Party</h3>
@@ -661,35 +756,76 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- Refactored Grid Footer -->
     <footer>
         <div class="container">
-            <h2>Book Your Event</h2>
-            <div class="contact-info">
-                <span class="contact-link">
-                    <svg viewBox="0 0 24 24" style="fill:currentColor; width:20px; height:20px;">
-                        <path
-                            d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                    </svg>
-                    07766679214
-                </span>
-                <span class="contact-link">
-                    <svg viewBox="0 0 24 24" style="fill:currentColor; width:20px; height:20px;">
-                        <path
-                            d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                    </svg>
-                    07789563226
-                </span>
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+                    <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+                        <svg style="width: 24px; height: 24px; color: var(--primary-medium);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="4" r="2"/>
+                            <path d="M4 13a8 8 0 0 1 16 0"/>
+                            <rect x="2" y="13" width="20" height="3" rx="1"/>
+                        </svg>
+                        Tallys Kitchen
+                    </h3>
+                    <p>Authentic, purely vegetarian Indian catering bringing traditional flavors to your special occasions. We handle the cooking so you can enjoy the moment.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#breakfast">Breakfast Menu</a></li>
+                        <li><a href="#starters">Starters</a></li>
+                        <li><a href="#dessert">Desserts</a></li>
+                        <li><a href="#pricing">Pricing Packages</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h4>Book Your Event</h4>
+                    <span class="contact-link">
+                        <svg viewBox="0 0 24 24" style="fill:currentColor; width:18px; height:18px;">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        </svg>
+                        07766679214
+                    </span>
+                    <span class="contact-link">
+                        <svg viewBox="0 0 24 24" style="fill:currentColor; width:18px; height:18px;">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                        </svg>
+                        07789563226
+                    </span>
+                </div>
+
             </div>
-            <!-- Updated Copyright Name -->
-            <span class="copyright">© 2024 Tallys Kitchen Catering</span>
+
+            <div class="footer-bottom">
+                <span class="copyright">© 2024 Tallys Kitchen Catering. All rights reserved.</span>
+            </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // Intersection Observer for scroll animations
+            // --- Mobile Menu Toggle Logic ---
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // --- Scroll Animations Logic ---
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
@@ -700,7 +836,6 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        // Add fade-in-up class if it's not already there by default (like in hero)
                         if (!entry.target.classList.contains('fade-in-up')) {
                             entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
                         }
@@ -709,16 +844,34 @@
                 });
             }, observerOptions);
 
-            // Observe all menu items and pricing cards
-            const animatedElements = document.querySelectorAll('.menu-item, .pricing-card, .header-compact');
+            const animatedElements = document.querySelectorAll('.menu-item, .pricing-card, .header-hero');
             animatedElements.forEach(el => {
-                el.style.opacity = '0'; // Hide initially
+                el.style.opacity = '0';
                 observer.observe(el);
+            });
+
+            // --- Menu Selection Logic ---
+            const selectButtons = document.querySelectorAll('.btn-select');
+            selectButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuItem = this.closest('.menu-item');
+
+                    if (this.classList.contains('selected')) {
+                        // Deselect
+                        this.classList.remove('selected');
+                        this.textContent = 'Select for Menu';
+                        menuItem.classList.remove('selected');
+                    } else {
+                        // Select
+                        this.classList.add('selected');
+                        this.innerHTML = '&#10003; Selected';
+                        menuItem.classList.add('selected');
+                    }
+                });
             });
 
             console.log("Tallys Kitchen Catering site loaded successfully");
         });
     </script>
 </body>
-
 </html>
