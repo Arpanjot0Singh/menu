@@ -274,26 +274,37 @@
 
             /* Custom Scrollbar for Firefox */
             scrollbar-width: thin;
-            scrollbar-color: var(--primary-medium) transparent;
+            scrollbar-color: var(--primary-color) transparent;
         }
 
         /* Custom Scrollbar for Chrome, Edge, Safari */
         .panel-content::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         .panel-content::-webkit-scrollbar-track {
-            background: transparent;
+            background: rgba(20, 90, 50, 0.04); /* Very subtle green track */
+            border-radius: 10px;
+            margin: 6px 0; /* Keeps the thumb slightly away from the very top/bottom */
         }
         .panel-content::-webkit-scrollbar-thumb {
-            background-color: var(--primary-medium);
+            background-color: var(--primary-color);
             border-radius: 10px;
+            border: 2px solid var(--bg-color); /* Gives the thumb a nice floating/padded effect */
         }
         .panel-content::-webkit-scrollbar-thumb:hover {
-            background-color: var(--primary-color);
+            background-color: var(--primary-dark);
         }
-        /* Completely hide the scrollbar arrows/buttons */
-        .panel-content::-webkit-scrollbar-button {
-            display: none;
+        /* Explicitly and completely hide all scrollbar arrows/buttons */
+        .panel-content::-webkit-scrollbar-button,
+        .panel-content::-webkit-scrollbar-button:start,
+        .panel-content::-webkit-scrollbar-button:end,
+        .panel-content::-webkit-scrollbar-button:start:decrement,
+        .panel-content::-webkit-scrollbar-button:end:increment {
+            display: none !important;
+            height: 0 !important;
+            width: 0 !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
 
         .panel-content h3 {
