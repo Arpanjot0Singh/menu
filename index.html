@@ -79,9 +79,17 @@
         .text-center { text-align: center; }
         .flex-center { display: flex; justify-content: center; align-items: center; }
 
+        /* --- ANIMATION: Drifting Background Pattern --- */
+        @keyframes bgDrift {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+
         .pattern-bg {
             background-color: var(--primary-light);
             background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23145A32' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 20px 20px;
+            animation: bgDrift 15s linear infinite; /* Smooth endless drift */
         }
 
         /* --- Navigation Bar --- */
@@ -113,6 +121,17 @@
             width: 28px;
             height: 28px;
         }
+
+        /* --- ANIMATION: Cloche Lift --- */
+        .cloche-dome {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: bottom center;
+        }
+        .nav-logo:hover .cloche-dome,
+        .header-logo:hover .cloche-dome {
+            transform: translateY(-2px);
+        }
+
         .nav-links {
             display: flex;
             gap: 1.5rem;
@@ -150,6 +169,7 @@
             padding: 5rem 0 4rem;
             border-bottom: 3px solid var(--primary-color);
             text-align: center;
+            overflow: hidden;
         }
         .header-logo h1 {
             font-size: 3.5rem;
@@ -181,6 +201,10 @@
             font-size: 0.9rem;
             font-weight: 500;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .hero-badges .badge:hover {
+            transform: translateY(-3px);
         }
         .hero-badges .info-icon {
             width: 18px;
@@ -247,7 +271,31 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+
+            /* Custom Scrollbar for Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-medium) transparent;
         }
+
+        /* Custom Scrollbar for Chrome, Edge, Safari */
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background-color: var(--primary-medium);
+            border-radius: 10px;
+        }
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-color);
+        }
+        /* Completely hide the scrollbar arrows/buttons */
+        .panel-content::-webkit-scrollbar-button {
+            display: none;
+        }
+
         .panel-content h3 {
             font-size: 1.2rem;
             margin-bottom: 1rem;
@@ -265,6 +313,7 @@
             padding: 0.6rem 0;
             border-bottom: 1px dashed var(--primary-light);
             font-size: 0.9rem;
+            animation: fadeInUp 0.3s ease-out forwards; /* Small entrance animation for items */
         }
         .selected-item-name {
             font-weight: 600;
@@ -335,6 +384,13 @@
             padding-top: 0.8rem;
         }
 
+        /* --- ANIMATION: Button Shine Sweep --- */
+        @keyframes shine {
+            0% { left: -100%; }
+            15% { left: 200%; }
+            100% { left: 200%; }
+        }
+
         /* Cart Action Buttons */
         .cart-actions {
             display: flex;
@@ -342,6 +398,22 @@
             gap: 0.8rem;
             margin-top: 1.5rem;
         }
+        .btn-whatsapp, .btn-download, .btn-select, .btn-submit {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-whatsapp::after, .btn-download::after, .btn-select::after, .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 6s infinite;
+        }
+
         .btn-whatsapp {
             background-color: #25D366;
             color: white;
@@ -354,11 +426,10 @@
             justify-content: center;
             align-items: center;
             gap: 0.5rem;
-            transition: var(--transition);
+            transition: background-color 0.3s ease;
         }
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-        }
+        .btn-whatsapp:hover { background-color: #128C7E; }
+
         .btn-download {
             background-color: var(--primary-dark);
             color: white;
@@ -367,15 +438,23 @@
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
+            transition: background-color 0.3s ease;
         }
-        .btn-download:hover {
-            background-color: var(--primary-color);
+        .btn-download:hover { background-color: var(--primary-color); }
+
+        /* --- ANIMATION: Cart Bounce --- */
+        @keyframes cartPop {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        .pop-anim {
+            animation: cartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         /* Floating Mobile Cart Button */
         .mobile-cart-btn {
-            display: none; /* Hidden on desktop */
+            display: none;
             position: fixed;
             bottom: 24px;
             right: 24px;
@@ -435,7 +514,7 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
             padding: 20px;
-            backdrop-filter: blur(3px); /* Added slight blur for premium feel */
+            backdrop-filter: blur(3px);
         }
         .modal-overlay.active {
             opacity: 1;
@@ -524,7 +603,7 @@
         .btn-submit {
             flex: 2;
             padding: 0.8rem;
-            background: #25D366; /* WhatsApp Green */
+            background: #25D366;
             border: none;
             border-radius: 6px;
             font-weight: 600;
@@ -548,16 +627,16 @@
             color: white;
             padding: 1rem 2rem;
             border-radius: 30px;
-            z-index: 4000; /* Set very high to overlay above modal */
+            z-index: 4000;
             box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
             font-weight: 600;
-            transition: var(--transition);
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
             opacity: 0;
             text-align: center;
             max-width: 90%;
         }
         .custom-alert.show {
-            top: 100px;
+            top: 40px;
             opacity: 1;
         }
 
@@ -577,7 +656,7 @@
             padding-bottom: 0.5rem;
         }
 
-        /* --- Menu Grid --- */
+        /* --- Menu Grid & ANIMATION: Image Zoom --- */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -591,7 +670,7 @@
             border-radius: 16px;
             border: 1px solid var(--primary-light);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: var(--transition);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -599,6 +678,7 @@
         .menu-image-wrapper {
             position: relative;
             width: 100%;
+            overflow: hidden; /* Contains the image zoom */
         }
         .menu-item-image {
             width: 100%;
@@ -607,6 +687,25 @@
             object-fit: cover;
             object-position: center bottom;
             display: block;
+            transition: transform 0.8s ease; /* Smooth slow zoom */
+            will-change: transform;
+        }
+
+        /* The Hover Trigger! Lift Card + Zoom Image */
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(20, 90, 50, 0.12);
+            border-color: var(--primary-medium);
+        }
+        .menu-item:hover .menu-item-image {
+            transform: scale(1.08); /* 8% zoom */
+        }
+
+        /* --- ANIMATION: Pulsing Badge --- */
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(20, 90, 50, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(20, 90, 50, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(20, 90, 50, 0); }
         }
         .best-flavour-badge {
             position: absolute;
@@ -619,22 +718,21 @@
             text-transform: uppercase;
             padding: 4px 10px;
             border-radius: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             letter-spacing: 0.05em;
             z-index: 2;
             pointer-events: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: pulseGlow 2s infinite; /* Continuous pulse */
         }
+
         .menu-item-content {
             padding: 1.5rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-        }
-        .menu-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(20, 90, 50, 0.1);
-            border-color: var(--primary-medium);
+            background: white; /* Ensure text sits above image */
+            position: relative;
+            z-index: 2;
         }
         .menu-item h3 {
             font-size: 1.3rem;
@@ -699,7 +797,7 @@
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
+            transition: background-color 0.3s ease, color 0.3s ease;
             width: 100%;
             font-family: var(--font-body);
             font-size: 0.95rem;
@@ -820,13 +918,12 @@
             color: var(--primary-medium);
         }
 
-        /* --- Animations --- */
-        .visible-anim { animation: fadeInUp 0.6s ease-out forwards; }
-        .fade-in-up { opacity: 0; }
-        .fade-in-up.visible-anim { animation: fadeInUp 0.6s ease-out forwards; }
+        /* --- Scroll Animations --- */
+        .visible-anim { animation: fadeInUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
+        .fade-in-up { opacity: 0; transform: translateY(30px); }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -956,7 +1053,8 @@
             <a href="#" class="nav-logo">
                 <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="4" r="2"/>
-                    <path d="M4 13a8 8 0 0 1 16 0"/>
+                    <!-- Added class here for cloche animation -->
+                    <path class="cloche-dome" d="M4 13a8 8 0 0 1 16 0"/>
                     <rect x="2" y="13" width="20" height="3" rx="1"/>
                 </svg>
                 Tallys Kitchen
@@ -983,7 +1081,8 @@
             <div class="header-logo flex-center" style="gap: 1rem; flex-direction: column;">
                 <svg style="width: 64px; height: 64px; color: var(--primary-color);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="4" r="2"/>
-                    <path d="M4 13a8 8 0 0 1 16 0"/>
+                    <!-- Added class here for cloche animation -->
+                    <path class="cloche-dome" d="M4 13a8 8 0 0 1 16 0"/>
                     <rect x="2" y="13" width="20" height="3" rx="1"/>
                 </svg>
                 <h1 style="margin-bottom: 0;">Tallys Kitchen</h1>
@@ -1015,7 +1114,7 @@
             <div class="menu-grid">
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Paranthas.png" alt="Paranthas" class="menu-item-image">
+                        <img src="images/Paranthas.png" alt="Paranthas" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1033,7 +1132,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Pakoras.png" alt="Pakoras" class="menu-item-image">
+                        <img src="images/Pakoras.png" alt="Pakoras" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1056,7 +1155,7 @@
             <div class="menu-grid">
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Golgappa.png" alt="Golgappa" class="menu-item-image">
+                        <img src="images/Golgappa.png" alt="Golgappa" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1070,7 +1169,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Aloo Tikki.png" alt="Aloo Tikki" class="menu-item-image">
+                        <img src="images/Aloo Tikki.png" alt="Aloo Tikki" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1084,7 +1183,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Traditional Chaat.png" alt="Papri Chaat" class="menu-item-image">
+                        <img src="images/Traditional Chaat.png" alt="Papri Chaat" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1098,7 +1197,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Cheese Chilli.png" alt="Cheese Chilli" class="menu-item-image">
+                        <img src="images/Cheese Chilli.png" alt="Cheese Chilli" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1118,7 +1217,7 @@
             <div class="menu-grid">
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Rasmalai.png" alt="Rasmalai" class="menu-item-image">
+                        <img src="images/Rasmalai.png" alt="Rasmalai" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1131,7 +1230,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Fruit Custard.png" alt="Fruit Custard" class="menu-item-image">
+                        <img src="images/Fruit Custard.png" alt="Fruit Custard" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1144,7 +1243,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Gajrela.png" alt="Gajrela" class="menu-item-image">
+                        <img src="images/Gajrela.png" alt="Gajrela" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1157,7 +1256,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Rice Kheer.png" alt="Rice Kheer" class="menu-item-image">
+                        <img src="images/Rice Kheer.png" alt="Rice Kheer" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1170,7 +1269,7 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Zarda.png" alt="Zarda" class="menu-item-image">
+                        <img src="images/Zarda.png" alt="Zarda" loading="lazy" class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1287,7 +1386,6 @@
             // Set minimum date to 2 weeks from today
             const twoWeeksFromNow = new Date();
             twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
-            // Format to YYYY-MM-DD for the date input
             eventDateInput.min = twoWeeksFromNow.toISOString().split('T')[0];
 
             // --- Scroll Animations ---
@@ -1315,9 +1413,19 @@
                 setTimeout(() => customAlert.classList.remove('show'), 4000);
             }
 
+            // --- Helper: Pop Animation ---
+            function triggerBounce() {
+                // Remove class, trigger reflow, add class to restart animation
+                mobileCartBtn.classList.remove('pop-anim');
+                panelToggle.classList.remove('pop-anim');
+                void mobileCartBtn.offsetWidth;
+                void panelToggle.offsetWidth;
+                mobileCartBtn.classList.add('pop-anim');
+                panelToggle.classList.add('pop-anim');
+            }
+
             // --- Selection Logic ---
             function updatePanelUI() {
-                // Update Badge Count
                 cartBadge.textContent = selectedItems.length;
                 if(selectedItems.length > 0) {
                     cartBadge.classList.add('show');
@@ -1325,11 +1433,10 @@
                     cartBadge.classList.remove('show');
                 }
 
-                // AUTO-POP LOGIC: If items exist, show panel.
                 if (selectedItems.length > 0) {
                     if (!selectionPanel.classList.contains('visible')) {
                         selectionPanel.classList.add('visible');
-                        selectionPanel.classList.remove('collapsed'); // Pop it fully out
+                        selectionPanel.classList.remove('collapsed');
                     }
                 } else {
                     selectionPanel.classList.remove('visible');
@@ -1381,10 +1488,8 @@
 
             guestCountInput.addEventListener('input', calculateCost);
 
-            // Toggle side panel manually
             panelToggle.addEventListener('click', () => selectionPanel.classList.toggle('collapsed'));
 
-            // Open side panel from floating mobile button
             mobileCartBtn.addEventListener('click', () => {
                 selectionPanel.classList.add('visible');
                 selectionPanel.classList.remove('collapsed');
@@ -1412,6 +1517,9 @@
                         this.innerHTML = '&#10003; Selected';
                         menuItem.classList.add('selected');
                         selectedItems.push({ name: itemName, category: category });
+
+                        // Fire cart pop animation on successful selection!
+                        triggerBounce();
                     }
                     updatePanelUI();
                 });
@@ -1429,56 +1537,45 @@
                     return;
                 }
 
-                // Temporarily hide buttons for the screenshot
                 const cartActions = document.querySelector('.cart-actions');
                 cartActions.style.display = 'none';
-
-                // Target the panel content to capture
                 const captureArea = document.querySelector('.panel-content');
 
-                // Temporarily apply card styling specifically for the screenshot
                 const origBorder = captureArea.style.border;
                 const origRadius = captureArea.style.borderRadius;
                 const origBg = captureArea.style.backgroundColor;
 
-                captureArea.style.border = '4px solid #145A32'; // Green border
-                captureArea.style.borderRadius = '20px'; // Rounded edges
-                captureArea.style.backgroundColor = '#FFFFFF'; // White inside background
+                captureArea.style.border = '4px solid #145A32';
+                captureArea.style.borderRadius = '20px';
+                captureArea.style.backgroundColor = '#FFFFFF';
 
                 html2canvas(captureArea, {
-                    backgroundColor: null, // Set background to transparent so rounded corners show correctly
-                    scale: 2 // Higher quality image
+                    backgroundColor: null,
+                    scale: 2
                 }).then(canvas => {
-                    // Restore buttons and styles
                     cartActions.style.display = 'flex';
                     captureArea.style.border = origBorder;
                     captureArea.style.borderRadius = origRadius;
                     captureArea.style.backgroundColor = origBg;
 
-                    // Create download link
                     const link = document.createElement('a');
                     link.download = 'Tallys-Kitchen-Order.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                 }).catch(err => {
-                    // Restore buttons and styles on error
                     cartActions.style.display = 'flex';
                     captureArea.style.border = origBorder;
                     captureArea.style.borderRadius = origRadius;
                     captureArea.style.backgroundColor = origBg;
-
-                    console.error("Could not generate image: ", err);
                     showAlert('Failed to generate image. Please try again.');
                 });
             });
 
             // --- WhatsApp Request Flow ---
-
             function closeModal() {
                 bookingModal.classList.remove('active');
             }
 
-            // 1. Open Modal
             btnWhatsapp.addEventListener('click', () => {
                 if (selectedItems.length === 0) {
                     showAlert('Please select items before requesting a booking.');
@@ -1488,22 +1585,18 @@
                     showAlert('Please select an Event Date before booking.');
                     return;
                 }
-
                 bookingModal.classList.add('active');
             });
 
-            // 2. Close Modal events
             btnCancelBooking.addEventListener('click', closeModal);
             btnCloseModalX.addEventListener('click', closeModal);
 
-            // Close modal if clicking on the dark background overlay
             bookingModal.addEventListener('click', (e) => {
                 if (e.target === bookingModal) {
                     closeModal();
                 }
             });
 
-            // 3. Submit Modal Data & Open WhatsApp
             btnConfirmBooking.addEventListener('click', () => {
                 const name = customerNameInput.value.trim();
                 const phone = customerPhoneInput.value.trim();
@@ -1517,7 +1610,6 @@
                 const total = totalCostDisplay.textContent;
                 const dateStr = eventDateInput.value;
 
-                // Format date nicely (e.g. "Sat, Oct 14, 2024")
                 const dateObj = new Date(dateStr);
                 const formattedDate = dateObj.toLocaleDateString('en-GB', {
                     weekday: 'short',
@@ -1526,7 +1618,6 @@
                     day: 'numeric'
                 });
 
-                // Construct the text message
                 let message = `*New Catering Request!* 🍽️\n\n`;
 
                 message += `*Customer Details:*\n`;
@@ -1546,18 +1637,11 @@
 
                 message += `\nCould you please confirm your availability? Thank you!`;
 
-                // Business WhatsApp Number
                 const phoneNumber = "447766679214";
-
-                // Open WhatsApp link
                 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
                 window.open(whatsappUrl, '_blank');
-
-                // Close the modal after sending
                 closeModal();
             });
-
-            console.log("Tallys Kitchen site updated with UX polish.");
         });
     </script>
 </body>
