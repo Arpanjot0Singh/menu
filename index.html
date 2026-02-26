@@ -7,8 +7,11 @@
     <title>Tallys Kitchen Catering</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Add html2canvas library for downloading the cart as an image -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         :root {
             --primary-color: #145A32;
@@ -185,7 +188,7 @@
             fill: var(--primary-medium);
         }
 
-        /* --- NEW: Selection Panel (Cart) --- */
+        /* --- Selection Panel (Cart) --- */
         .selection-panel {
             position: fixed;
             top: 120px;
@@ -196,7 +199,7 @@
             box-shadow: 4px 0 15px rgba(0,0,0,0.15);
             z-index: 999;
             transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s;
-            transform: translateX(-115%); /* Fully hidden by default including handle */
+            transform: translateX(-115%);
             display: flex;
             border-right: 2px solid var(--primary-color);
             border-top: 2px solid var(--primary-color);
@@ -206,12 +209,12 @@
             pointer-events: none;
         }
         .selection-panel.visible {
-            transform: translateX(0); /* Pops out fully */
+            transform: translateX(0);
             opacity: 1;
             pointer-events: auto;
         }
         .selection-panel.visible.collapsed {
-            transform: translateX(calc(-100% + 0px)); /* Hides body, but handle remains at edge because right:-40px */
+            transform: translateX(calc(-100% + 0px));
         }
         .panel-toggle {
             position: absolute;
@@ -276,7 +279,7 @@
             text-transform: capitalize;
         }
 
-        /* Cost Calculator within Panel */
+        /* Cost Calculator & Booking Details */
         .calculator-section {
             background: var(--primary-light);
             padding: 1rem;
@@ -305,6 +308,8 @@
             border-radius: 4px;
             font-family: var(--font-body);
             width: 100%;
+            background: white;
+            color: var(--text-color);
         }
         .calc-total {
             margin-top: 1rem;
@@ -317,6 +322,136 @@
             padding-top: 0.8rem;
         }
 
+        /* Cart Action Buttons */
+        .cart-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+        .btn-download {
+            background-color: var(--primary-dark);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-download:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* --- Modal Styling --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: var(--bg-color);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        .modal-body .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .modal-body label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-color);
+        }
+        .modal-body input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--primary-medium);
+            border-radius: 6px;
+            font-family: var(--font-body);
+        }
+        .modal-body input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(20, 90, 50, 0.1);
+        }
+        .modal-footer {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .btn-cancel {
+            flex: 1;
+            padding: 0.8rem;
+            background: #f1f1f1;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+        .btn-cancel:hover { background: #e2e2e2; }
+        .btn-submit {
+            flex: 2;
+            padding: 0.8rem;
+            background: #25D366; /* WhatsApp Green */
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        .btn-submit:hover { background: #128C7E; }
+
         /* Custom Alert Notification */
         .custom-alert {
             position: fixed;
@@ -327,7 +462,7 @@
             color: white;
             padding: 1rem 2rem;
             border-radius: 30px;
-            z-index: 2000;
+            z-index: 4000; /* Set very high to overlay above modal */
             box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
             font-weight: 600;
             transition: var(--transition);
@@ -646,6 +781,35 @@
 
     <div id="custom-alert" class="custom-alert"></div>
 
+    <!-- Booking Modal Popup -->
+    <div id="booking-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Booking</h3>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem;">Please provide your details so we can confirm your order via WhatsApp.</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="customer-name">Full Name</label>
+                    <input type="text" id="customer-name" placeholder="e.g. John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone Number</label>
+                    <input type="tel" id="customer-phone" placeholder="e.g. 07700 900000">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-cancel-booking" class="btn-cancel">Cancel</button>
+                <button id="btn-confirm-booking" class="btn-submit">
+                    <svg style="width: 18px; height: 18px; fill: white;" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                    </svg>
+                    Send Order Details
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Selection Panel (Cart) -->
     <div id="selection-panel" class="selection-panel">
         <div class="panel-toggle" id="panel-toggle">
@@ -661,7 +825,11 @@
             </div>
 
             <div class="calculator-section">
-                <h4>Cost Calculator</h4>
+                <h4>Booking Details</h4>
+                <div class="calc-group">
+                    <label for="event-date">Event Date (Min 2 weeks notice)</label>
+                    <input type="date" id="event-date" required>
+                </div>
                 <div class="calc-group">
                     <label for="guest-count">Number of People (20-30)</label>
                     <input type="number" id="guest-count" min="20" max="30" value="20">
@@ -669,6 +837,16 @@
                 <div class="calc-total">
                     Total: <span id="total-cost">£0</span>
                 </div>
+            </div>
+
+            <div class="cart-actions">
+                <button id="btn-whatsapp" class="btn-whatsapp">
+                    <svg style="width: 20px; height: 20px; fill: white;" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                    </svg>
+                    Request Booking
+                </button>
+                <button id="btn-download" class="btn-download">Download Order Card</button>
             </div>
         </div>
     </div>
@@ -978,9 +1156,22 @@
             const selectionPanel = document.getElementById('selection-panel');
             const panelToggle = document.getElementById('panel-toggle');
             const selectedItemsList = document.getElementById('selected-items-list');
+
+            // Input Elements
             const guestCountInput = document.getElementById('guest-count');
+            const eventDateInput = document.getElementById('event-date');
+
             const totalCostDisplay = document.getElementById('total-cost');
             const customAlert = document.getElementById('custom-alert');
+            const btnWhatsapp = document.getElementById('btn-whatsapp');
+            const btnDownload = document.getElementById('btn-download');
+
+            // Modal Elements
+            const bookingModal = document.getElementById('booking-modal');
+            const btnCancelBooking = document.getElementById('btn-cancel-booking');
+            const btnConfirmBooking = document.getElementById('btn-confirm-booking');
+            const customerNameInput = document.getElementById('customer-name');
+            const customerPhoneInput = document.getElementById('customer-phone');
 
             let selectedItems = [];
             const categoryLimits = {
@@ -988,6 +1179,12 @@
                 'starters': 2,
                 'dessert': 1
             };
+
+            // Set minimum date to 2 weeks from today
+            const twoWeeksFromNow = new Date();
+            twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
+            // Format to YYYY-MM-DD for the date input
+            eventDateInput.min = twoWeeksFromNow.toISOString().split('T')[0];
 
             // --- Scroll Animations ---
             const observer = new IntersectionObserver((entries) => {
@@ -1017,7 +1214,6 @@
             // --- Selection Logic ---
             function updatePanelUI() {
                 // AUTO-POP LOGIC: If items exist, show panel.
-                // If it's the very first item, make sure it pops out fully (not collapsed).
                 if (selectedItems.length > 0) {
                     if (!selectionPanel.classList.contains('visible')) {
                         selectionPanel.classList.add('visible');
@@ -1101,7 +1297,137 @@
                 });
             });
 
-            console.log("Tallys Kitchen site updated with auto-pop panel logic.");
+            // --- Download Card as Image ---
+            btnDownload.addEventListener('click', () => {
+                if (selectedItems.length === 0) {
+                    showAlert('Please select items before downloading.');
+                    return;
+                }
+
+                if (!eventDateInput.value) {
+                    showAlert('Please select an Event Date first.');
+                    return;
+                }
+
+                // Temporarily hide buttons for the screenshot
+                const cartActions = document.querySelector('.cart-actions');
+                cartActions.style.display = 'none';
+
+                // Target the panel content to capture
+                const captureArea = document.querySelector('.panel-content');
+
+                // Temporarily apply card styling specifically for the screenshot
+                const origBorder = captureArea.style.border;
+                const origRadius = captureArea.style.borderRadius;
+                const origBg = captureArea.style.backgroundColor;
+
+                captureArea.style.border = '4px solid #145A32'; // Green border
+                captureArea.style.borderRadius = '20px'; // Rounded edges
+                captureArea.style.backgroundColor = '#FFFFFF'; // White inside background
+
+                html2canvas(captureArea, {
+                    backgroundColor: null, // Set background to transparent so rounded corners show correctly
+                    scale: 2 // Higher quality image
+                }).then(canvas => {
+                    // Restore buttons and styles
+                    cartActions.style.display = 'flex';
+                    captureArea.style.border = origBorder;
+                    captureArea.style.borderRadius = origRadius;
+                    captureArea.style.backgroundColor = origBg;
+
+                    // Create download link
+                    const link = document.createElement('a');
+                    link.download = 'Tallys-Kitchen-Order.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch(err => {
+                    // Restore buttons and styles on error
+                    cartActions.style.display = 'flex';
+                    captureArea.style.border = origBorder;
+                    captureArea.style.borderRadius = origRadius;
+                    captureArea.style.backgroundColor = origBg;
+
+                    console.error("Could not generate image: ", err);
+                    showAlert('Failed to generate image. Please try again.');
+                });
+            });
+
+            // --- WhatsApp Request Flow ---
+
+            // 1. Open Modal
+            btnWhatsapp.addEventListener('click', () => {
+                if (selectedItems.length === 0) {
+                    showAlert('Please select items before requesting a booking.');
+                    return;
+                }
+                if (!eventDateInput.value) {
+                    showAlert('Please select an Event Date before booking.');
+                    return;
+                }
+
+                bookingModal.classList.add('active');
+            });
+
+            // 2. Close Modal
+            btnCancelBooking.addEventListener('click', () => {
+                bookingModal.classList.remove('active');
+            });
+
+            // 3. Submit Modal Data & Open WhatsApp
+            btnConfirmBooking.addEventListener('click', () => {
+                const name = customerNameInput.value.trim();
+                const phone = customerPhoneInput.value.trim();
+
+                if (!name || !phone) {
+                    showAlert('Please enter both your Name and Phone Number.');
+                    return;
+                }
+
+                const guests = guestCountInput.value;
+                const total = totalCostDisplay.textContent;
+                const dateStr = eventDateInput.value;
+
+                // Format date nicely (e.g. "Sat, Oct 14, 2024")
+                const dateObj = new Date(dateStr);
+                const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                // Construct the text message
+                let message = `*New Catering Request!* 🍽️\n\n`;
+
+                message += `*Customer Details:*\n`;
+                message += `👤 Name: ${name}\n`;
+                message += `📞 Phone: ${phone}\n\n`;
+
+                message += `*Event Details:*\n`;
+                message += `📅 Date: ${formattedDate}\n`;
+                message += `👥 Guests: ${guests}\n`;
+                message += `💰 Estimated Total: ${total}\n\n`;
+
+                message += `*Menu Selection:*\n`;
+                selectedItems.forEach(item => {
+                    const catName = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+                    message += `▪️ ${item.name} _(${catName})_\n`;
+                });
+
+                message += `\nCould you please confirm your availability? Thank you!`;
+
+                // Business WhatsApp Number
+                const phoneNumber = "447766679214";
+
+                // Open WhatsApp link
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+
+                // Close the modal after sending
+                bookingModal.classList.remove('active');
+            });
+
+            console.log("Tallys Kitchen site updated with advanced booking flow.");
         });
     </script>
 </body>
