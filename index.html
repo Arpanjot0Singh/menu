@@ -195,19 +195,23 @@
             background: var(--bg-color);
             box-shadow: 4px 0 15px rgba(0,0,0,0.15);
             z-index: 999;
-            transition: var(--transition);
-            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s;
+            transform: translateX(-115%); /* Fully hidden by default including handle */
             display: flex;
             border-right: 2px solid var(--primary-color);
             border-top: 2px solid var(--primary-color);
             border-bottom: 2px solid var(--primary-color);
             border-radius: 0 12px 12px 0;
+            opacity: 0;
+            pointer-events: none;
         }
         .selection-panel.visible {
-            transform: translateX(0);
+            transform: translateX(0); /* Pops out fully */
+            opacity: 1;
+            pointer-events: auto;
         }
-        .selection-panel.collapsed {
-            transform: translateX(calc(-100% + 40px));
+        .selection-panel.visible.collapsed {
+            transform: translateX(calc(-100% + 0px)); /* Hides body, but handle remains at edge because right:-40px */
         }
         .panel-toggle {
             position: absolute;
@@ -229,6 +233,7 @@
             height: 24px;
             fill: currentColor;
             transition: var(--transition);
+            transform: rotate(0deg);
         }
         .selection-panel.collapsed .panel-toggle svg {
             transform: rotate(180deg);
@@ -294,7 +299,7 @@
             font-weight: 600;
             color: var(--text-color);
         }
-        .calc-group select, .calc-group input {
+        .calc-group input {
             padding: 0.6rem;
             border: 1px solid var(--primary-medium);
             border-radius: 4px;
@@ -595,9 +600,9 @@
         }
 
         /* --- Animations --- */
-        .visible { animation: fadeInUp 0.6s ease-out forwards; }
+        .visible-anim { animation: fadeInUp 0.6s ease-out forwards; }
         .fade-in-up { opacity: 0; }
-        .fade-in-up.visible { animation: fadeInUp 0.6s ease-out forwards; }
+        .fade-in-up.visible-anim { animation: fadeInUp 0.6s ease-out forwards; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -609,7 +614,6 @@
             .header-logo h1 { font-size: 2.5rem; }
             .hero-badges { flex-direction: column; align-items: center; gap: 0.8rem; }
 
-            /* Mobile Nav Toggle */
             .hamburger { display: block; }
             .nav-links {
                 display: none;
@@ -625,32 +629,27 @@
             }
             .nav-links.active { display: flex; }
             .nav-links li { width: 100%; text-align: center; padding: 0.5rem 1rem; }
-            .nav-links a { display: block; }
 
-            /* Responsive Selection Panel */
             .selection-panel {
                 width: 280px;
-                height: calc(100vh - 80px); /* Adjust height for mobile */
+                height: calc(100vh - 80px);
                 top: 80px;
             }
 
             .footer-grid { text-align: center; }
             .footer-contact { align-items: center; }
-            .footer-links a:hover { padding-left: 0; }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Selection Limits Alert -->
     <div id="custom-alert" class="custom-alert"></div>
 
-    <!-- Left Selection Panel (Cart) -->
+    <!-- Selection Panel (Cart) -->
     <div id="selection-panel" class="selection-panel">
         <div class="panel-toggle" id="panel-toggle">
             <svg viewBox="0 0 24 24">
-                <!-- Chevron arrow pointing right initially (when collapsed) or left (when open) based on css transform -->
                 <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
             </svg>
         </div>
@@ -658,7 +657,7 @@
             <h3>Your Menu Selection</h3>
 
             <div id="selected-items-list" class="selected-items">
-                <!-- Selected items will dynamically populate here -->
+                <!-- Dynamically populated -->
             </div>
 
             <div class="calculator-section">
@@ -674,7 +673,7 @@
         </div>
     </div>
 
-    <!-- Sticky Navigation Bar -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="nav-logo">
@@ -686,7 +685,6 @@
                 Tallys Kitchen
             </a>
 
-            <!-- Hamburger button for mobile -->
             <button class="hamburger" aria-label="Toggle navigation">
                 <svg viewBox="0 0 24 24">
                     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -702,7 +700,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <header class="header-hero pattern-bg fade-in-up">
         <div class="container">
             <div class="header-logo flex-center" style="gap: 1rem; flex-direction: column;">
@@ -732,10 +730,9 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container">
 
-        <!-- Breakfast Section -->
+        <!-- Breakfast -->
         <section id="breakfast">
             <div class="section-title">Breakfast</div>
             <div class="menu-grid">
@@ -776,7 +773,7 @@
             </div>
         </section>
 
-        <!-- Starters Section -->
+        <!-- Starters -->
         <section id="starters">
             <div class="section-title">Starters</div>
             <div class="menu-grid">
@@ -838,7 +835,7 @@
             </div>
         </section>
 
-        <!-- Dessert Section -->
+        <!-- Dessert -->
         <section id="dessert">
             <div class="section-title">Dessert</div>
             <div class="menu-grid">
@@ -909,7 +906,7 @@
             </div>
         </section>
 
-        <!-- Pricing Section -->
+        <!-- Pricing -->
         <section id="pricing" class="pattern-bg" style="border-radius: 8px; padding: 3rem 2rem;">
             <h2 class="text-center" style="margin-bottom: 2rem;">Pricing Packages</h2>
             <div class="pricing-grid">
@@ -935,11 +932,9 @@
 
     </main>
 
-    <!-- Refactored Grid Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
-
                 <div class="footer-brand">
                     <h3 style="display: flex; align-items: center; gap: 0.5rem;">
                         <svg style="width: 24px; height: 24px; color: var(--primary-medium);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -949,37 +944,25 @@
                         </svg>
                         Tallys Kitchen
                     </h3>
-                    <p>Authentic, purely vegetarian Indian catering bringing traditional flavors to your special occasions. We handle the cooking so you can enjoy the moment.</p>
+                    <p>Authentic vegetarian Indian catering for your special occasions. Min 20 - Max 30 people per booking.</p>
                 </div>
 
                 <div class="footer-links">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#breakfast">Breakfast Menu</a></li>
+                        <li><a href="#breakfast">Breakfast</a></li>
                         <li><a href="#starters">Starters</a></li>
                         <li><a href="#dessert">Desserts</a></li>
-                        <li><a href="#pricing">Pricing Packages</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-contact">
-                    <h4>Book Your Event</h4>
-                    <span class="contact-link">
-                        <svg viewBox="0 0 24 24" style="fill:currentColor; width:18px; height:18px;">
-                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                        </svg>
-                        07766679214
-                    </span>
-                    <span class="contact-link">
-                        <svg viewBox="0 0 24 24" style="fill:currentColor; width:18px; height:18px;">
-                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-                        </svg>
-                        07789563226
-                    </span>
+                    <h4>Contact Us</h4>
+                    <span class="contact-link">07766679214</span>
+                    <span class="contact-link">07789563226</span>
                 </div>
-
             </div>
-
             <div class="footer-bottom">
                 <span class="copyright">© 2024 Tallys Kitchen Catering. All rights reserved.</span>
             </div>
@@ -989,46 +972,9 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- Mobile Menu Toggle Logic ---
+            // --- UI Elements ---
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
-
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                });
-            });
-
-            // --- Scroll Animations Logic ---
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        if (!entry.target.classList.contains('fade-in-up')) {
-                            entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
-                        }
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            const animatedElements = document.querySelectorAll('.menu-item, .pricing-card, .header-hero');
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                observer.observe(el);
-            });
-
-            // --- Menu Selection & Limit Logic ---
             const selectionPanel = document.getElementById('selection-panel');
             const panelToggle = document.getElementById('panel-toggle');
             const selectedItemsList = document.getElementById('selected-items-list');
@@ -1037,32 +983,51 @@
             const customAlert = document.getElementById('custom-alert');
 
             let selectedItems = [];
-
-            // Define strict limits based on the pricing packages image
             const categoryLimits = {
-                'breakfast': 2, // Max 2 (e.g. 1 Prantha, 1 Pakora)
-                'starters': 2,  // Max 2 Premium Starters
-                'dessert': 1    // Max 1 Signature Dessert
+                'breakfast': 2,
+                'starters': 2,
+                'dessert': 1
             };
 
+            // --- Scroll Animations ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible-anim');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.menu-item, .pricing-card, .header-hero').forEach(el => observer.observe(el));
+
+            // --- Navigation ---
+            hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => navLinks.classList.remove('active'));
+            });
+
+            // --- Alert System ---
             function showAlert(message) {
                 customAlert.textContent = message;
                 customAlert.classList.add('show');
-                setTimeout(() => {
-                    customAlert.classList.remove('show');
-                }, 4000);
+                setTimeout(() => customAlert.classList.remove('show'), 4000);
             }
 
+            // --- Selection Logic ---
             function updatePanelUI() {
-                // Toggle Panel Visibility
+                // AUTO-POP LOGIC: If items exist, show panel.
+                // If it's the very first item, make sure it pops out fully (not collapsed).
                 if (selectedItems.length > 0) {
-                    selectionPanel.classList.add('visible');
+                    if (!selectionPanel.classList.contains('visible')) {
+                        selectionPanel.classList.add('visible');
+                        selectionPanel.classList.remove('collapsed'); // Pop it fully out
+                    }
                 } else {
                     selectionPanel.classList.remove('visible');
-                    selectionPanel.classList.remove('collapsed'); // Reset if empty
+                    selectionPanel.classList.remove('collapsed');
                 }
 
-                // Render Selected Items
                 selectedItemsList.innerHTML = '';
                 if (selectedItems.length === 0) {
                     selectedItemsList.innerHTML = '<p style="color: var(--text-light); font-size: 0.9rem;">No items selected yet.</p>';
@@ -1077,91 +1042,66 @@
                         selectedItemsList.appendChild(row);
                     });
                 }
-
                 calculateCost();
             }
 
             function calculateCost() {
                 const guests = parseInt(guestCountInput.value) || 0;
-
-                // Enforce Min 20 and Max 30 structurally
                 let effectiveGuests = guests;
                 if (effectiveGuests < 20) effectiveGuests = 20;
                 if (effectiveGuests > 30) effectiveGuests = 30;
 
-                // Calculate dynamic price per person based on active selections
                 let pricePerPerson = 0;
-                const hasBreakfast = selectedItems.some(item => item.category === 'breakfast');
-                const hasStandard = selectedItems.some(item => item.category === 'starters' || item.category === 'dessert');
+                const hasBreakfast = selectedItems.some(i => i.category === 'breakfast');
+                const hasStandard = selectedItems.some(i => i.category === 'starters' || i.category === 'dessert');
 
-                if (hasBreakfast) pricePerPerson += 5;   // Add £5 if any breakfast item is selected
-                if (hasStandard) pricePerPerson += 15;   // Add £15 if any starter or dessert is selected
+                if (hasBreakfast) pricePerPerson += 5;
+                if (hasStandard) pricePerPerson += 15;
 
                 const total = effectiveGuests * pricePerPerson;
 
-                if (guests < 20 && selectedItems.length > 0) {
+                if (selectedItems.length === 0) {
+                    totalCostDisplay.textContent = '£0';
+                } else if (guests < 20) {
                     totalCostDisplay.textContent = '£' + total + ' (Min 20)';
-                } else if (guests > 30 && selectedItems.length > 0) {
+                } else if (guests > 30) {
                     totalCostDisplay.textContent = '£' + total + ' (Max 30)';
                 } else {
                     totalCostDisplay.textContent = '£' + total;
                 }
             }
 
-            // Input Listeners for the calculator
             guestCountInput.addEventListener('input', calculateCost);
+            panelToggle.addEventListener('click', () => selectionPanel.classList.toggle('collapsed'));
 
-            // Toggle side panel manually
-            panelToggle.addEventListener('click', () => {
-                selectionPanel.classList.toggle('collapsed');
-            });
-
-            // Button Click logic
-            const selectButtons = document.querySelectorAll('.btn-select');
-            selectButtons.forEach(button => {
+            document.querySelectorAll('.btn-select').forEach(button => {
                 button.addEventListener('click', function() {
                     const menuItem = this.closest('.menu-item');
                     const itemName = menuItem.querySelector('h3').textContent;
-                    const category = menuItem.closest('section').id; // Gets 'breakfast', 'starters', or 'dessert'
+                    const category = menuItem.closest('section').id;
 
                     if (this.classList.contains('selected')) {
-                        // Deselect flow
                         this.classList.remove('selected');
                         this.textContent = 'Select for Menu';
                         menuItem.classList.remove('selected');
-
                         selectedItems = selectedItems.filter(item => item.name !== itemName);
-                        updatePanelUI();
                     } else {
-                        // Selection flow with Strict Limits checking
-                        const currentCategoryCount = selectedItems.filter(item => item.category === category).length;
-
-                        if (currentCategoryCount >= categoryLimits[category]) {
-                            if (category === 'starters') {
-                                showAlert('The Standard Party package limits you to 2 Premium Starters.');
-                            } else if (category === 'dessert') {
-                                showAlert('The Standard Party package limits you to 1 Signature Dessert.');
-                            } else if (category === 'breakfast') {
-                                showAlert('The Breakfast package limits you to 2 Selections (e.g. 1 Prantha, 1 Pakora).');
-                            }
-                            return; // Stop them from selecting it
+                        const currentCount = selectedItems.filter(item => item.category === category).length;
+                        if (currentCount >= categoryLimits[category]) {
+                            const msg = category === 'dessert' ? '1 Signature Dessert' : `2 ${category}`;
+                            showAlert(`This package limits you to ${msg}.`);
+                            return;
                         }
-
-                        // Apply Selection
                         this.classList.add('selected');
                         this.innerHTML = '&#10003; Selected';
                         menuItem.classList.add('selected');
-
                         selectedItems.push({ name: itemName, category: category });
-
-                        updatePanelUI();
                     }
+                    updatePanelUI();
                 });
             });
 
-            // Run on initial load
-            updatePanelUI();
-            console.log("Tallys Kitchen Catering site loaded successfully");
+            console.log("Tallys Kitchen site updated with auto-pop panel logic.");
         });
     </script>
 </body>
