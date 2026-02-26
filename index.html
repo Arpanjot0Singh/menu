@@ -278,6 +278,13 @@
             border-radius: 4px;
             text-transform: capitalize;
         }
+        .empty-cart-msg {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            padding: 2rem 0;
+            font-style: italic;
+        }
 
         /* Cost Calculator & Booking Details */
         .calculator-section {
@@ -310,6 +317,12 @@
             width: 100%;
             background: white;
             color: var(--text-color);
+            transition: var(--transition);
+        }
+        .calc-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(20, 90, 50, 0.15);
         }
         .calc-total {
             margin-top: 1rem;
@@ -360,6 +373,55 @@
             background-color: var(--primary-color);
         }
 
+        /* Floating Mobile Cart Button */
+        .mobile-cart-btn {
+            display: none; /* Hidden on desktop */
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(20, 90, 50, 0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 998;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .mobile-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(20, 90, 50, 0.5);
+        }
+        .mobile-cart-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+        .cart-badge {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background-color: #E74C3C;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            border: 2px solid var(--bg-color);
+            transform: scale(0);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cart-badge.show {
+            transform: scale(1);
+        }
+
         /* --- Modal Styling --- */
         .modal-overlay {
             position: fixed;
@@ -373,23 +435,46 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
             padding: 20px;
+            backdrop-filter: blur(3px); /* Added slight blur for premium feel */
         }
         .modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
         .modal-content {
+            position: relative;
             background: var(--bg-color);
             border-radius: 12px;
             width: 100%;
             max-width: 400px;
-            padding: 2rem;
+            padding: 2.5rem 2rem 2rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-overlay.active .modal-content {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+        }
+        .btn-close-modal-x {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        .btn-close-modal-x:hover {
+            background: var(--primary-light);
+            color: var(--primary-dark);
         }
         .modal-header h3 {
             font-size: 1.4rem;
@@ -412,11 +497,12 @@
             border: 1px solid var(--primary-medium);
             border-radius: 6px;
             font-family: var(--font-body);
+            transition: var(--transition);
         }
         .modal-body input:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(20, 90, 50, 0.1);
+            box-shadow: 0 0 0 2px rgba(20, 90, 50, 0.15);
         }
         .modal-footer {
             display: flex;
@@ -771,6 +857,10 @@
                 top: 80px;
             }
 
+            .mobile-cart-btn {
+                display: flex;
+            }
+
             .footer-grid { text-align: center; }
             .footer-contact { align-items: center; }
         }
@@ -781,9 +871,18 @@
 
     <div id="custom-alert" class="custom-alert"></div>
 
+    <!-- Floating Mobile Cart Button -->
+    <div id="mobile-cart-btn" class="mobile-cart-btn" aria-label="Open Cart">
+        <svg viewBox="0 0 24 24">
+            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+        <span id="cart-badge" class="cart-badge">0</span>
+    </div>
+
     <!-- Booking Modal Popup -->
     <div id="booking-modal" class="modal-overlay">
         <div class="modal-content">
+            <button id="btn-close-modal-x" class="btn-close-modal-x" aria-label="Close modal">&times;</button>
             <div class="modal-header">
                 <h3>Request Booking</h3>
                 <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem;">Please provide your details so we can confirm your order via WhatsApp.</p>
@@ -1166,8 +1265,13 @@
             const btnWhatsapp = document.getElementById('btn-whatsapp');
             const btnDownload = document.getElementById('btn-download');
 
+            // Mobile Floating Cart Element
+            const mobileCartBtn = document.getElementById('mobile-cart-btn');
+            const cartBadge = document.getElementById('cart-badge');
+
             // Modal Elements
             const bookingModal = document.getElementById('booking-modal');
+            const btnCloseModalX = document.getElementById('btn-close-modal-x');
             const btnCancelBooking = document.getElementById('btn-cancel-booking');
             const btnConfirmBooking = document.getElementById('btn-confirm-booking');
             const customerNameInput = document.getElementById('customer-name');
@@ -1213,6 +1317,14 @@
 
             // --- Selection Logic ---
             function updatePanelUI() {
+                // Update Badge Count
+                cartBadge.textContent = selectedItems.length;
+                if(selectedItems.length > 0) {
+                    cartBadge.classList.add('show');
+                } else {
+                    cartBadge.classList.remove('show');
+                }
+
                 // AUTO-POP LOGIC: If items exist, show panel.
                 if (selectedItems.length > 0) {
                     if (!selectionPanel.classList.contains('visible')) {
@@ -1226,7 +1338,7 @@
 
                 selectedItemsList.innerHTML = '';
                 if (selectedItems.length === 0) {
-                    selectedItemsList.innerHTML = '<p style="color: var(--text-light); font-size: 0.9rem;">No items selected yet.</p>';
+                    selectedItemsList.innerHTML = '<div class="empty-cart-msg">Select items from the menu to build your order!</div>';
                 } else {
                     selectedItems.forEach(item => {
                         const row = document.createElement('div');
@@ -1268,7 +1380,15 @@
             }
 
             guestCountInput.addEventListener('input', calculateCost);
+
+            // Toggle side panel manually
             panelToggle.addEventListener('click', () => selectionPanel.classList.toggle('collapsed'));
+
+            // Open side panel from floating mobile button
+            mobileCartBtn.addEventListener('click', () => {
+                selectionPanel.classList.add('visible');
+                selectionPanel.classList.remove('collapsed');
+            });
 
             document.querySelectorAll('.btn-select').forEach(button => {
                 button.addEventListener('click', function() {
@@ -1354,6 +1474,10 @@
 
             // --- WhatsApp Request Flow ---
 
+            function closeModal() {
+                bookingModal.classList.remove('active');
+            }
+
             // 1. Open Modal
             btnWhatsapp.addEventListener('click', () => {
                 if (selectedItems.length === 0) {
@@ -1368,9 +1492,15 @@
                 bookingModal.classList.add('active');
             });
 
-            // 2. Close Modal
-            btnCancelBooking.addEventListener('click', () => {
-                bookingModal.classList.remove('active');
+            // 2. Close Modal events
+            btnCancelBooking.addEventListener('click', closeModal);
+            btnCloseModalX.addEventListener('click', closeModal);
+
+            // Close modal if clicking on the dark background overlay
+            bookingModal.addEventListener('click', (e) => {
+                if (e.target === bookingModal) {
+                    closeModal();
+                }
             });
 
             // 3. Submit Modal Data & Open WhatsApp
@@ -1424,10 +1554,10 @@
                 window.open(whatsappUrl, '_blank');
 
                 // Close the modal after sending
-                bookingModal.classList.remove('active');
+                closeModal();
             });
 
-            console.log("Tallys Kitchen site updated with advanced booking flow.");
+            console.log("Tallys Kitchen site updated with UX polish.");
         });
     </script>
 </body>
