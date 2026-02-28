@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     // Observe all menu items and pricing cards
-    const animatedElements = document.querySelectorAll('.menu-item, .pricing-card, .header-compact');
+    const animatedElements = document.querySelectorAll('.menu-item, .pricing-card, .header-compact, .cert-card, .trust-badge');
     animatedElements.forEach(el => {
         el.style.opacity = '0'; // Hide initially
         observer.observe(el);

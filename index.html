@@ -7,21 +7,30 @@
     <title>Tallys Kitchen Catering</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500&display=swap"
+        rel="stylesheet">
 
     <!-- Add html2canvas library for downloading the cart as an image -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
         :root {
-            --primary-color: #145A32;
-            --primary-dark: #0B3B1F;
-            --primary-light: #E8F5E9;
-            --primary-medium: #A9DFBF;
-            --text-color: #1B2631;
-            --text-light: #566573;
-            --bg-color: #FFFFFF;
-            --card-bg: #FAFAFA;
+            /* Premium Palette - All Green */
+            --primary-color: #0F3821;
+            /* Deep Forest Green */
+            --primary-dark: #064E3B;
+            /* Darker Forest Green */
+            --primary-light: #F3F6F4;
+            /* Soft warm off-white */
+            --primary-medium: #10B981;
+            /* Vibrant Action Green (Emerald) */
+            --text-color: #1c1917;
+            /* Warm dark grey */
+            --text-light: #57534e;
+            /* Medium grey */
+            --bg-color: #FAFAF9;
+            /* Warm stone white */
+            --card-bg: #FFFFFF;
 
             --font-heading: 'Outfit', sans-serif;
             --font-body: 'Inter', sans-serif;
@@ -30,8 +39,13 @@
             --spacing-standard: 1rem;
             --spacing-wide: 2rem;
 
-            --border-radius: 8px;
-            --transition: all 0.3s ease-in-out;
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+            /* Premium Shadows */
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -53,7 +67,10 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, h4 {
+        h1,
+        h2,
+        h3,
+        h4 {
             font-family: var(--font-heading);
             font-weight: 600;
             color: var(--primary-color);
@@ -76,37 +93,56 @@
             padding: 0 20px;
         }
 
-        .text-center { text-align: center; }
-        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .text-center {
+            text-align: center;
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         /* --- ANIMATION: Drifting Background Pattern --- */
         @keyframes bgDrift {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 40px; }
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 40px 40px;
+            }
         }
 
         .pattern-bg {
             background-color: var(--primary-light);
             background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23145A32' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='1'/%3E%3Ccircle cx='13' cy='13' r='1'/%3E%3C/g%3E%3C/svg%3E");
             background-size: 20px 20px;
-            animation: bgDrift 15s linear infinite; /* Smooth endless drift */
+            animation: bgDrift 15s linear infinite;
+            /* Smooth endless drift */
         }
 
         /* --- Navigation Bar --- */
         .navbar {
             position: sticky;
             top: 0;
-            background: var(--bg-color);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.85);
+            /* Glassmorphism base */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             z-index: 1000;
             padding: 1rem 0;
-            border-bottom: 3px solid var(--primary-color);
+            border-bottom: 1px solid rgba(20, 90, 50, 0.1);
+            transition: padding 0.3s ease;
         }
+
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .nav-logo {
             display: flex;
             align-items: center;
@@ -116,6 +152,7 @@
             font-size: 1.5rem;
             color: var(--primary-dark);
         }
+
         .nav-logo-icon {
             color: var(--primary-color);
             width: 28px;
@@ -127,6 +164,7 @@
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-origin: bottom center;
         }
+
         .nav-logo:hover .cloche-dome,
         .header-logo:hover .cloche-dome {
             transform: translateY(-2px);
@@ -137,20 +175,22 @@
             gap: 1.5rem;
             align-items: center;
         }
+
         .nav-links a {
             font-weight: 600;
-            color: var(--primary-color);
+            color: var(--text-color);
             font-size: 0.95rem;
-            padding: 0.5rem 1.2rem;
-            background-color: #FFFFFF;
-            border: 2px solid var(--primary-color);
-            border-radius: 6px;
-            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background-color: transparent;
         }
+
         .nav-links a:hover {
-            color: #FFFFFF;
-            background-color: var(--primary-color);
+            color: var(--primary-dark);
+            background-color: rgba(16, 185, 129, 0.1);
         }
+
         .hamburger {
             display: none;
             background: none;
@@ -160,35 +200,44 @@
             padding: 5px;
             transition: var(--transition);
         }
+
         .hamburger:active {
             transform: scale(0.9);
         }
+
         .hamburger svg {
             width: 28px;
             height: 28px;
             fill: currentColor;
         }
 
-        /* --- Hero Section --- */
+        /* --- Premium Hero Section --- */
         .header-hero {
-            padding: 5rem 0 4rem;
-            border-bottom: 3px solid var(--primary-color);
+            padding: 7rem 0 6rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            color: #FFFFFF;
             text-align: center;
             overflow: hidden;
+            border-bottom: none;
+            box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.1);
         }
+
         .header-logo h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 0.5rem;
-            color: var(--primary-dark);
+            color: #FFFFFF;
             line-height: 1.1;
+            letter-spacing: -0.02em;
         }
+
         .tagline {
             font-size: 1.2rem;
-            color: var(--text-light);
-            font-weight: 400;
-            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
         }
+
         .hero-badges {
             display: flex;
             justify-content: center;
@@ -196,23 +245,28 @@
             flex-wrap: wrap;
             margin-top: 2rem;
         }
+
         .hero-badges .badge {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: var(--primary-dark);
-            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
             padding: 0.6rem 1.2rem;
             border-radius: 30px;
             font-size: 0.9rem;
             font-weight: 500;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
             white-space: nowrap;
         }
+
         .hero-badges .badge:hover {
             transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
         }
+
         .hero-badges .info-icon {
             width: 18px;
             height: 18px;
@@ -222,63 +276,70 @@
         /* --- Selection Panel (Cart) --- */
         .selection-panel {
             position: fixed;
-            top: 120px;
-            left: 0;
-            width: 320px;
-            height: calc(100vh - 140px);
-            height: calc(100dvh - 140px); /* Progressive enhancement for modern mobile browsers */
-            background: var(--bg-color);
-            box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+            top: 100px;
+            right: 20px;
+            width: 360px;
+            height: calc(100vh - 120px);
+            height: calc(100dvh - 120px);
+            /* Progressive enhancement for modern mobile browsers */
+            background: rgba(255, 255, 255, 0.85);
+            /* Glassmorphism base */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             z-index: 999;
             transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s;
-            transform: translateX(-115%);
+            transform: translateX(120%);
             display: flex;
-            border-right: 2px solid var(--primary-color);
-            border-top: 2px solid var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            border-radius: 0 12px 12px 0;
+            border-radius: var(--border-radius);
             opacity: 0;
             pointer-events: none;
         }
+
         .selection-panel.visible {
             transform: translateX(0);
             opacity: 1;
             pointer-events: auto;
         }
+
         .selection-panel.visible.collapsed {
-            transform: translateX(calc(-100% + 0px));
+            transform: translateX(calc(100% + 40px));
         }
+
         .panel-toggle {
             position: absolute;
-            right: -40px;
+            left: -48px;
             top: 20px;
-            width: 40px;
-            height: 48px;
+            width: 48px;
+            height: 56px;
             background: var(--primary-color);
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            border-radius: 0 8px 8px 0;
-            box-shadow: 4px 0 8px rgba(0,0,0,0.1);
+            border-radius: 12px 0 0 12px;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.15);
         }
+
         .panel-toggle svg {
             width: 24px;
             height: 24px;
             fill: currentColor;
             transition: var(--transition);
-            transform: rotate(0deg);
-        }
-        .selection-panel.collapsed .panel-toggle svg {
             transform: rotate(180deg);
+        }
+
+        .selection-panel.collapsed .panel-toggle svg {
+            transform: rotate(0deg);
         }
 
         /* Badge directly on the side toggle tab */
         .cart-badge {
             position: absolute;
             top: -8px;
-            right: 4px;
+            left: 4px;
             background-color: #E74C3C;
             color: white;
             font-size: 0.75rem;
@@ -293,6 +354,7 @@
             transform: scale(0);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
         .cart-badge.show {
             transform: scale(1);
         }
@@ -314,19 +376,23 @@
         .panel-content::-webkit-scrollbar {
             width: 8px;
         }
+
         .panel-content::-webkit-scrollbar-track {
             background: rgba(20, 90, 50, 0.04);
             border-radius: 10px;
             margin: 6px 0;
         }
+
         .panel-content::-webkit-scrollbar-thumb {
             background-color: var(--primary-color);
             border-radius: 10px;
             border: 2px solid var(--bg-color);
         }
+
         .panel-content::-webkit-scrollbar-thumb:hover {
             background-color: var(--primary-dark);
         }
+
         .panel-content::-webkit-scrollbar-button,
         .panel-content::-webkit-scrollbar-button:start,
         .panel-content::-webkit-scrollbar-button:end,
@@ -350,6 +416,7 @@
             flex-grow: 1;
             margin-bottom: 1.5rem;
         }
+
         .selected-item-row {
             display: flex;
             justify-content: space-between;
@@ -359,10 +426,12 @@
             font-size: 0.9rem;
             animation: fadeInUp 0.3s ease-out forwards;
         }
+
         .selected-item-name {
             font-weight: 600;
             color: var(--text-color);
         }
+
         .selected-item-cat {
             font-size: 0.75rem;
             color: var(--primary-dark);
@@ -371,6 +440,7 @@
             border-radius: 4px;
             text-transform: capitalize;
         }
+
         .empty-cart-msg {
             text-align: center;
             color: var(--text-light);
@@ -386,22 +456,26 @@
             border-radius: 8px;
             border: 1px solid var(--primary-medium);
         }
+
         .calculator-section h4 {
             margin-bottom: 0.8rem;
             font-size: 1rem;
             color: var(--primary-dark);
         }
+
         .calc-group {
             margin-bottom: 0.8rem;
             display: flex;
             flex-direction: column;
             gap: 0.3rem;
         }
+
         .calc-group label {
             font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-color);
         }
+
         .calc-group input {
             padding: 0.6rem;
             border: 1px solid var(--primary-medium);
@@ -412,11 +486,13 @@
             color: var(--text-color);
             transition: var(--transition);
         }
+
         .calc-group input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(20, 90, 50, 0.15);
         }
+
         .calc-total {
             margin-top: 1rem;
             font-size: 1.1rem;
@@ -430,9 +506,17 @@
 
         /* --- ANIMATION: Button Shine Sweep --- */
         @keyframes shine {
-            0% { left: -100%; }
-            15% { left: 200%; }
-            100% { left: 200%; }
+            0% {
+                left: -100%;
+            }
+
+            15% {
+                left: 200%;
+            }
+
+            100% {
+                left: 200%;
+            }
         }
 
         /* Cart Action Buttons */
@@ -442,18 +526,24 @@
             gap: 0.8rem;
             margin-top: 1.5rem;
         }
-        .btn-whatsapp, .btn-download, .btn-select, .btn-submit {
+
+        .btn-whatsapp,
+        .btn-download,
+        .btn-submit {
             position: relative;
             overflow: hidden;
         }
-        .btn-whatsapp::after, .btn-download::after, .btn-select::after, .btn-submit::after {
+
+        .btn-whatsapp::after,
+        .btn-download::after,
+        .btn-submit::after {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-25deg);
             animation: shine 6s infinite;
         }
@@ -472,7 +562,10 @@
             gap: 0.5rem;
             transition: background-color 0.3s ease;
         }
-        .btn-whatsapp:hover { background-color: #128C7E; }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
 
         .btn-download {
             background-color: var(--primary-dark);
@@ -484,14 +577,26 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-        .btn-download:hover { background-color: var(--primary-color); }
+
+        .btn-download:hover {
+            background-color: var(--primary-color);
+        }
 
         /* --- ANIMATION: Cart Bounce --- */
         @keyframes cartPop {
-            0% { transform: scale(1); }
-            40% { transform: scale(1.15); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            40% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
+
         .pop-anim {
             animation: cartPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -499,8 +604,11 @@
         /* --- Modal Styling --- */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -511,10 +619,12 @@
             padding: 20px;
             backdrop-filter: blur(3px);
         }
+
         .modal-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
+
         .modal-content {
             position: relative;
             background: var(--bg-color);
@@ -525,13 +635,15 @@
             max-height: 90dvh;
             overflow-y: auto;
             padding: 2.5rem 2rem 2rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             transform: translateY(20px) scale(0.95);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
         .modal-overlay.active .modal-content {
             transform: translateY(0) scale(1);
         }
+
         .btn-close-modal-x {
             position: absolute;
             top: 15px;
@@ -549,18 +661,22 @@
             border-radius: 50%;
             transition: var(--transition);
         }
+
         .btn-close-modal-x:hover {
             background: var(--primary-light);
             color: var(--primary-dark);
         }
+
         .modal-header h3 {
             font-size: 1.4rem;
             margin-bottom: 0.5rem;
             color: var(--primary-dark);
         }
+
         .modal-body .form-group {
             margin-bottom: 1.2rem;
         }
+
         .modal-body label {
             display: block;
             font-size: 0.85rem;
@@ -568,6 +684,7 @@
             margin-bottom: 0.4rem;
             color: var(--text-color);
         }
+
         .modal-body input {
             width: 100%;
             padding: 0.8rem;
@@ -576,16 +693,19 @@
             font-family: var(--font-body);
             transition: var(--transition);
         }
+
         .modal-body input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(20, 90, 50, 0.15);
         }
+
         .modal-footer {
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
         }
+
         .btn-cancel {
             flex: 1;
             padding: 0.8rem;
@@ -597,7 +717,11 @@
             color: var(--text-color);
             transition: var(--transition);
         }
-        .btn-cancel:hover { background: #e2e2e2; }
+
+        .btn-cancel:hover {
+            background: #e2e2e2;
+        }
+
         .btn-submit {
             flex: 2;
             padding: 0.8rem;
@@ -613,7 +737,10 @@
             gap: 0.5rem;
             transition: var(--transition);
         }
-        .btn-submit:hover { background: #128C7E; }
+
+        .btn-submit:hover {
+            background: #128C7E;
+        }
 
         /* Custom Alert Notification */
         .custom-alert {
@@ -633,6 +760,7 @@
             text-align: center;
             max-width: 90%;
         }
+
         .custom-alert.show {
             top: 40px;
             opacity: 1;
@@ -643,6 +771,7 @@
             padding: 4rem 0;
             scroll-margin-top: 80px;
         }
+
         .section-title {
             font-size: 2rem;
             margin-bottom: 2rem;
@@ -661,23 +790,26 @@
             gap: 2rem;
             margin-bottom: 2rem;
         }
+
         .menu-item {
             background: white;
             padding: 0;
             position: relative;
             border-radius: 16px;
-            border: 1px solid var(--primary-light);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+            border: none;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
+
         .menu-image-wrapper {
             position: relative;
             width: 100%;
             overflow: hidden;
         }
+
         .menu-item-image {
             width: 100%;
             height: auto;
@@ -691,34 +823,43 @@
 
         .menu-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(20, 90, 50, 0.12);
-            border-color: var(--primary-medium);
+            box-shadow: var(--shadow-lg);
         }
+
         .menu-item:hover .menu-item-image {
             transform: scale(1.08);
         }
 
         /* --- ANIMATION: Pulsing Badge --- */
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(20, 90, 50, 0.5); }
-            70% { box-shadow: 0 0 0 8px rgba(20, 90, 50, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(20, 90, 50, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
         }
+
         .best-flavour-badge {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background-color: var(--primary-color);
+            bottom: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--primary-medium) 0%, #059669 100%);
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.70rem;
             font-weight: 700;
             text-transform: uppercase;
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             z-index: 2;
             pointer-events: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             animation: pulseGlow 2s infinite;
         }
 
@@ -731,27 +872,32 @@
             position: relative;
             z-index: 2;
         }
+
         .menu-item h3 {
             font-size: 1.3rem;
             margin-bottom: 0.25rem;
             color: var(--primary-color);
         }
+
         .menu-desc {
             font-size: 0.95rem;
             color: var(--text-light);
             font-style: italic;
             margin-bottom: 0.75rem;
         }
+
         .menu-options {
             margin-left: 0;
             font-size: 0.95rem;
             color: var(--text-color);
         }
+
         .menu-options li {
             padding-left: 1.2rem;
             position: relative;
             margin-bottom: 0.25rem;
         }
+
         .menu-options li::before {
             content: '•';
             color: var(--primary-color);
@@ -759,6 +905,7 @@
             left: 0;
             font-weight: bold;
         }
+
         .allergens {
             font-size: 0.75rem;
             color: var(--text-light);
@@ -770,6 +917,7 @@
             border-radius: 4px;
             align-self: flex-start;
         }
+
         .tag {
             display: inline-block;
             padding: 2px 8px;
@@ -787,29 +935,31 @@
         /* --- Selection Button --- */
         .btn-select {
             margin-top: auto;
-            padding: 0.6rem 1rem;
-            background-color: #FFFFFF;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            border-radius: 6px;
+            padding: 0.8rem 1.2rem;
+            background-color: var(--primary-light);
+            border: none;
+            color: var(--primary-dark);
+            border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: all 0.3s ease;
             width: 100%;
             font-family: var(--font-body);
             font-size: 0.95rem;
         }
+
         .btn-select:hover {
-            background-color: var(--primary-light);
-        }
-        .btn-select.selected {
             background-color: var(--primary-color);
             color: white;
         }
+
+        .btn-select.selected {
+            background-color: var(--primary-dark);
+            color: var(--primary-medium);
+        }
+
         .menu-item.selected {
-            border-color: var(--primary-color);
-            border-width: 2px;
-            box-shadow: 0 8px 16px rgba(20, 90, 50, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-medium), var(--shadow-lg);
         }
 
         /* --- Pricing Grid --- */
@@ -818,6 +968,7 @@
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
             gap: 2rem;
         }
+
         .pricing-card {
             background-color: #fff;
             border: 2px solid var(--primary-light);
@@ -826,15 +977,18 @@
             text-align: center;
             transition: var(--transition);
         }
+
         .pricing-card:hover {
             border-color: var(--primary-color);
             background-color: var(--primary-light);
             transform: translateY(-5px);
         }
+
         .pricing-card h3 {
             font-size: 1.4rem;
             margin-bottom: 0.5rem;
         }
+
         .price {
             font-size: 2.5rem;
             font-weight: 700;
@@ -842,11 +996,13 @@
             margin: 1rem 0;
             font-family: var(--font-heading);
         }
+
         .price span {
             font-size: 1rem;
             color: var(--text-light);
             font-weight: 400;
         }
+
         .pricing-card ul {
             text-align: left;
             margin-top: 1.5rem;
@@ -854,9 +1010,112 @@
             border-top: 1px solid var(--primary-light);
             padding-top: 1rem;
         }
+
         .pricing-card ul li {
             margin-bottom: 0.5rem;
             color: var(--text-color);
+        }
+
+        /* --- Allergy Warning --- */
+        .allergy-warning {
+            background-color: var(--primary-light);
+            border-top: 1px solid rgba(16, 185, 129, 0.2);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 4rem 20px;
+            margin-top: 4rem;
+        }
+
+        .allergy-warning .container {
+            max-width: 800px;
+        }
+
+        .allergy-icon {
+            color: var(--primary-medium);
+            margin-bottom: 1rem;
+        }
+
+        .allergy-warning h3 {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .allergy-warning p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        .allergy-warning strong {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* --- Certifications --- */
+        .certifications-section {
+            padding: 4rem 0;
+            background-color: var(--bg-color);
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .cert-card {
+            background-color: #fff;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.1);
+            border-color: var(--primary-medium);
+            background-color: rgba(16, 185, 129, 0.03);
+        }
+
+        .cert-card svg {
+            width: 40px;
+            height: 40px;
+            color: var(--primary-medium);
+        }
+
+        .cert-card h4 {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* --- Hero Trust Badge --- */
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #fff;
+            font-weight: 500;
+            margin-top: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* --- Footer --- */
@@ -866,6 +1125,7 @@
             padding: 4rem 0 2rem;
             margin-top: 4rem;
         }
+
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -873,55 +1133,78 @@
             text-align: left;
             margin-bottom: 3rem;
         }
-        footer h3, footer h4 {
+
+        footer h3,
+        footer h4 {
             color: white;
             margin-bottom: 1rem;
         }
+
         .footer-brand p {
             color: var(--primary-medium);
             font-size: 0.95rem;
             line-height: 1.6;
         }
+
         .footer-links ul li {
             margin-bottom: 0.8rem;
         }
+
         .footer-links a {
             color: var(--primary-medium);
             transition: all 0.2s ease;
         }
+
         .footer-links a:hover {
             color: white;
             padding-left: 5px;
         }
+
         .footer-contact {
             display: flex;
             flex-direction: column;
             gap: 1rem;
         }
+
         .contact-link {
             display: flex;
             align-items: center;
             gap: 0.8rem;
             color: var(--primary-medium);
         }
+
         .contact-link:hover {
             color: white;
         }
+
         .footer-bottom {
             text-align: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
             color: var(--primary-medium);
         }
 
         /* --- Scroll Animations --- */
-        .visible-anim { animation: fadeInUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
-        .fade-in-up { opacity: 0; transform: translateY(30px); }
+        .visible-anim {
+            animation: fadeInUp 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+        }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* --- Mobile Responsiveness --- */
@@ -929,24 +1212,34 @@
             .header-hero {
                 padding: 3rem 0 2rem;
             }
+
             .header-logo h1 {
                 font-size: 2.2rem;
             }
+
             section {
                 padding: 2.5rem 0;
             }
+
             .section-title {
                 font-size: 1.75rem;
                 margin-bottom: 1.5rem;
             }
 
-            .hero-badges { flex-direction: column; align-items: center; gap: 0.8rem; }
+            .hero-badges {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+            }
+
             .hero-badges .badge {
                 font-size: 0.85rem;
                 padding: 0.5rem 1rem;
             }
 
-            .hamburger { display: block; }
+            .hamburger {
+                display: block;
+            }
 
             /* Slick modern mobile navigation */
             .nav-links {
@@ -961,7 +1254,7 @@
                 backdrop-filter: blur(10px);
                 padding: 1.5rem;
                 border-radius: 16px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
                 border: 1px solid rgba(20, 90, 50, 0.1);
                 transform: translateY(-20px) scale(0.95);
                 opacity: 0;
@@ -969,25 +1262,48 @@
                 transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 z-index: 1001;
             }
+
             .nav-links.active {
                 transform: translateY(0) scale(1);
                 opacity: 1;
                 pointer-events: auto;
             }
-            .nav-links li { width: 100%; text-align: center; margin-bottom: 0.8rem; }
-            .nav-links li:last-child { margin-bottom: 0; }
-            .nav-links a { width: 100%; display: block; padding: 0.8rem; font-size: 1.05rem;}
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.8rem;
+            }
+
+            .nav-links li:last-child {
+                margin-bottom: 0;
+            }
+
+            .nav-links a {
+                width: 100%;
+                display: block;
+                padding: 0.8rem;
+                font-size: 1.05rem;
+            }
 
             /* Standardized Side Panel for Mobile */
             .selection-panel {
-                width: 280px;
+                width: 320px;
+                max-width: 90vw;
                 height: calc(100vh - 80px);
                 height: calc(100dvh - 80px);
                 top: 80px;
+                right: 0;
+                border-radius: 16px 0 0 16px;
             }
 
-            .footer-grid { text-align: center; }
-            .footer-contact { align-items: center; }
+            .footer-grid {
+                text-align: center;
+            }
+
+            .footer-contact {
+                align-items: center;
+            }
 
             .modal-content {
                 padding: 1.5rem;
@@ -995,10 +1311,21 @@
         }
 
         @media (max-width: 400px) {
-            .header-logo h1 { font-size: 1.8rem; }
-            .tagline { font-size: 1rem; }
-            .nav-logo { font-size: 1.25rem; }
-            .price { font-size: 2rem; }
+            .header-logo h1 {
+                font-size: 1.8rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            .nav-logo {
+                font-size: 1.25rem;
+            }
+
+            .price {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
@@ -1013,7 +1340,8 @@
             <button id="btn-close-modal-x" class="btn-close-modal-x" aria-label="Close modal">&times;</button>
             <div class="modal-header">
                 <h3>Request Booking</h3>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem;">Please provide your details so we can confirm your order via WhatsApp.</p>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem;">Please provide your
+                    details so we can confirm your order via WhatsApp.</p>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -1029,7 +1357,8 @@
                 <button id="btn-cancel-booking" class="btn-cancel">Cancel</button>
                 <button id="btn-confirm-booking" class="btn-submit">
                     <svg style="width: 18px; height: 18px; fill: white;" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
                     </svg>
                     Send Order Details
                 </button>
@@ -1041,7 +1370,7 @@
     <div id="selection-panel" class="selection-panel">
         <div class="panel-toggle" id="panel-toggle">
             <svg viewBox="0 0 24 24">
-                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/>
+                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
             </svg>
             <span id="cart-badge" class="cart-badge">0</span>
         </div>
@@ -1070,7 +1399,8 @@
             <div class="cart-actions">
                 <button id="btn-whatsapp" class="btn-whatsapp">
                     <svg style="width: 20px; height: 20px; fill: white;" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
                     </svg>
                     Request Booking
                 </button>
@@ -1083,17 +1413,18 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="nav-logo">
-                <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="4" r="2"/>
-                    <path class="cloche-dome" d="M4 13a8 8 0 0 1 16 0"/>
-                    <rect x="2" y="13" width="20" height="3" rx="1"/>
+                <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="4" r="2" />
+                    <path class="cloche-dome" d="M4 13a8 8 0 0 1 16 0" />
+                    <rect x="2" y="13" width="20" height="3" rx="1" />
                 </svg>
                 Tallys Kitchen
             </a>
 
             <button class="hamburger" aria-label="Toggle navigation">
                 <svg viewBox="0 0 24 24">
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                 </svg>
             </button>
 
@@ -1102,6 +1433,7 @@
                 <li><a href="#starters">Starters</a></li>
                 <li><a href="#dessert">Desserts</a></li>
                 <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#certifications">Certifications</a></li>
             </ul>
         </div>
     </nav>
@@ -1110,26 +1442,45 @@
     <header class="header-hero pattern-bg fade-in-up">
         <div class="container">
             <div class="header-logo flex-center" style="gap: 1rem; flex-direction: column;">
-                <svg style="width: 64px; height: 64px; color: var(--primary-color);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="4" r="2"/>
-                    <path class="cloche-dome" d="M4 13a8 8 0 0 1 16 0"/>
-                    <rect x="2" y="13" width="20" height="3" rx="1"/>
+                <svg style="width: 64px; height: 64px; color: var(--primary-medium); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="4" r="2" />
+                    <path class="cloche-dome" d="M4 13a8 8 0 0 1 16 0" />
+                    <rect x="2" y="13" width="20" height="3" rx="1" />
                 </svg>
-                <h1 style="margin-bottom: 0;">Tallys Kitchen</h1>
+                <h1 style="margin-bottom: 0; color: #FFFFFF;">Tallys Kitchen</h1>
             </div>
             <p class="tagline">Authentic Indian Cuisine for Every Occasion</p>
 
+            <div class="trust-badge fade-in-up" style="animation-delay: 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                Fully Certified & Compliant
+            </div>
+
             <div class="hero-badges">
                 <span class="badge">
-                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
+                    <svg class="info-icon" viewBox="0 0 24 24">
+                        <path
+                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
                     Min 20 - Max 30 People
                 </span>
                 <span class="badge">
-                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" /></svg>
+                    <svg class="info-icon" viewBox="0 0 24 24">
+                        <path
+                            d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z" />
+                    </svg>
                     Vegetarian Only
                 </span>
                 <span class="badge">
-                    <svg class="info-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z" /></svg>
+                    <svg class="info-icon" viewBox="0 0 24 24">
+                        <path
+                            d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z" />
+                    </svg>
                     Book 2 Weeks Ahead
                 </span>
             </div>
@@ -1213,7 +1564,8 @@
 
                 <div class="menu-item fade-in-up">
                     <div class="menu-image-wrapper">
-                        <img src="images/Traditional Chaat.png" alt="Papri Chaat" loading="lazy" class="menu-item-image">
+                        <img src="images/Traditional Chaat.png" alt="Papri Chaat" loading="lazy"
+                            class="menu-item-image">
                         <div class="best-flavour-badge">Best Flavour</div>
                     </div>
                     <div class="menu-item-content">
@@ -1304,7 +1656,8 @@
                     </div>
                     <div class="menu-item-content">
                         <h3>Zarda</h3>
-                        <p class="menu-desc">Traditional colored sweet zarda rice garnished with nuts and dry fruits.</p>
+                        <p class="menu-desc">Traditional colored sweet zarda rice garnished with nuts and dry fruits.
+                        </p>
                         <span class="allergens">Dairy, Nuts</span>
                         <button class="btn-select">Select for Menu</button>
                     </div>
@@ -1338,19 +1691,102 @@
 
     </main>
 
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications-section">
+        <div class="container">
+            <h2 class="text-center section-title visible-anim fade-in-up">Certifications & Compliance</h2>
+            <p class="text-center" style="max-width: 600px; margin: 0 auto 2rem; color: var(--text-light);">We are fully
+                committed to the highest standards of food safety, hygiene, and allergen awareness.</p>
+
+            <div class="certifications-grid">
+                <a href="certifications/Food_Safety_and_Hygiene_for_Catering_Level_2%201.pdf" target="_blank"
+                    class="cert-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <path d="m9 12 2 2 4-4" />
+                    </svg>
+                    <h4>Food Safety & Hygiene Level 2</h4>
+                </a>
+
+                <a href="certifications/Food_allergen_awareness%201.pdf" target="_blank" class="cert-card"
+                    style="animation-delay: 0.1s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <polyline points="12 16 12 12 12 8" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    <h4>Food Allergen Awareness</h4>
+                </a>
+
+                <a href="certifications/End_of_course_certificate%201.pdf" target="_blank" class="cert-card"
+                    style="animation-delay: 0.2s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    <h4>Health and Safety Awareness</h4>
+                </a>
+
+                <a href="certifications/Slips_and_trips_awareness%201.pdf" target="_blank" class="cert-card"
+                    style="animation-delay: 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                    </svg>
+                    <h4>Slips and Trips Awareness</h4>
+                </a>
+
+                <a href="certifications/_Manual_Handling_Awareness_V4.5%201.pdf" target="_blank" class="cert-card"
+                    style="animation-delay: 0.4s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M12 22V12M12 12a5 5 0 0 0-5-5H2M12 12a5 5 0 0 1 5-5h5M12 12v5M22 7l-5 5M2 7l5 5M12 17l-5 5M12 17l5 5" />
+                    </svg>
+                    <h4>Manual Handling Awareness</h4>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Allergy Warning -->
+    <section class="allergy-warning">
+        <div class="container text-center visible-anim fade-in-up">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="allergy-icon">
+                <path d="m10.2 3.2-6.5 11c-.5.8-.1 1.8.8 1.8h13c.9 0 1.3-1 .8-1.8l-6.5-11c-.4-.7-1.2-.7-1.6 0z" />
+                <path d="M12 8v4" />
+                <path d="M12 16h.01" />
+            </svg>
+            <h3>Allergy & Dietary Information</h3>
+            <p>Please note that our meals are prepared in a kitchen that handles <strong>nuts, dairy, gluten</strong>,
+                and other common allergens.</p>
+            <p>While we take utmost care to prevent cross-contamination, we cannot guarantee that any item is completely
+                free of traces of allergens. If you or your guests have severe allergies, please contact us directly
+                before placing an order to discuss your specific requirements.</p>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <h3 style="display: flex; align-items: center; gap: 0.5rem;">
-                        <svg style="width: 24px; height: 24px; color: var(--primary-medium);" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="4" r="2"/>
-                            <path d="M4 13a8 8 0 0 1 16 0"/>
-                            <rect x="2" y="13" width="20" height="3" rx="1"/>
+                        <svg style="width: 24px; height: 24px; color: var(--primary-medium);"
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="4" r="2" />
+                            <path d="M4 13a8 8 0 0 1 16 0" />
+                            <rect x="2" y="13" width="20" height="3" rx="1" />
                         </svg>
                         Tallys Kitchen
                     </h3>
-                    <p>Authentic vegetarian Indian catering for your special occasions. Min 20 - Max 30 people per booking.</p>
+                    <p>Authentic vegetarian Indian catering for your special occasions. Min 20 - Max 30 people per
+                        booking.</p>
                 </div>
 
                 <div class="footer-links">
@@ -1453,7 +1889,7 @@
             // --- Selection Logic ---
             function updatePanelUI() {
                 cartBadge.textContent = selectedItems.length;
-                if(selectedItems.length > 0) {
+                if (selectedItems.length > 0) {
                     cartBadge.classList.add('show');
                 } else {
                     cartBadge.classList.remove('show');
@@ -1523,7 +1959,7 @@
             panelToggle.addEventListener('click', () => selectionPanel.classList.toggle('collapsed'));
 
             document.querySelectorAll('.btn-select').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const menuItem = this.closest('.menu-item');
                     const itemName = menuItem.querySelector('h3').textContent;
                     const category = menuItem.closest('section').id;
@@ -1689,4 +2125,5 @@
         });
     </script>
 </body>
+
 </html>
