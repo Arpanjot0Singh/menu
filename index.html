@@ -306,42 +306,55 @@
         }
 
         .selection-panel.visible.collapsed {
-            transform: translateX(calc(100% + 40px));
+            transform: translateX(120%);
         }
 
         .panel-toggle {
-            position: absolute;
-            left: -48px;
-            top: 20px;
-            width: 48px;
-            height: 56px;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 64px;
+            height: 64px;
             background: var(--primary-color);
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            border-radius: 12px 0 0 12px;
-            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.15);
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+        }
+
+        .panel-toggle.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .panel-toggle:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
         }
 
         .panel-toggle svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
             transition: var(--transition);
-            transform: rotate(180deg);
-        }
-
-        .selection-panel.collapsed .panel-toggle svg {
-            transform: rotate(0deg);
         }
 
         /* Badge directly on the side toggle tab */
         .cart-badge {
             position: absolute;
-            top: -8px;
-            left: 4px;
+            top: 0px;
+            right: 0px;
             background-color: #E74C3C;
             color: white;
             font-size: 0.75rem;
@@ -885,23 +898,24 @@
         }
 
         .menu-options {
-            margin-left: 0;
-            font-size: 0.95rem;
-            color: var(--text-color);
+            margin: 0.5rem 0 1rem;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .menu-options li {
-            padding-left: 1.2rem;
-            position: relative;
-            margin-bottom: 0.25rem;
-        }
-
-        .menu-options li::before {
-            content: '•';
-            color: var(--primary-color);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(20, 90, 50, 0.15);
+            display: inline-flex;
+            align-items: center;
         }
 
         .allergens {
@@ -1364,16 +1378,25 @@
         </div>
     </div>
 
+    <!-- Floating Booking Circle -->
+    <div class="panel-toggle" id="panel-toggle">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span id="cart-badge" class="cart-badge">0</span>
+    </div>
+
     <!-- Selection Panel -->
     <div id="selection-panel" class="selection-panel">
-        <div class="panel-toggle" id="panel-toggle">
-            <svg viewBox="0 0 24 24">
-                <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
-            </svg>
-            <span id="cart-badge" class="cart-badge">0</span>
-        </div>
         <div class="panel-content">
-            <h3>Your Menu Selection</h3>
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--primary-light); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                <h3 style="margin-bottom: 0; border: none; padding: 0;">Your Menu Selection</h3>
+                <button id="close-panel"
+                    style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-color);">&times;</button>
+            </div>
 
             <div id="selected-items-list" class="selected-items">
                 <!-- Dynamically populated -->
@@ -1672,7 +1695,7 @@
                     </div>
                     <div class="menu-item-content">
                         <h3>Zarda</h3>
-                        <p class="menu-desc">Traditional colored sweet zarda rice garnished with nuts and dry fruits.
+                        <p class="menu-desc">Five color traditional rice garnished with nuts and dry fruits.
                         </p>
                         <span class="allergens">Dairy, Nuts</span>
                         <button class="btn-select">Select for Menu</button>
@@ -1849,6 +1872,7 @@
             const selectionPanel = document.getElementById('selection-panel');
             const panelToggle = document.getElementById('panel-toggle');
             const selectedItemsList = document.getElementById('selected-items-list');
+            const closePanelBtn = document.getElementById('close-panel');
 
             // Input Elements
             const guestCountInput = document.getElementById('guest-count');
@@ -1880,7 +1904,10 @@
             // Set minimum date to 2 weeks from today
             const twoWeeksFromNow = new Date();
             twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
-            eventDateInput.min = twoWeeksFromNow.toISOString().split('T')[0];
+            const yyyy = twoWeeksFromNow.getFullYear();
+            const mm = String(twoWeeksFromNow.getMonth() + 1).padStart(2, '0');
+            const dd = String(twoWeeksFromNow.getDate()).padStart(2, '0');
+            eventDateInput.min = `${yyyy}-${mm}-${dd}`;
 
             // --- Scroll Animations ---
             const observer = new IntersectionObserver((entries) => {
@@ -1925,6 +1952,7 @@
                 }
 
                 if (selectedItems.length > 0) {
+                    panelToggle.classList.add('visible');
                     // Only auto-pop open completely on desktop. On mobile, show the side tab holding the badge.
                     if (!selectionPanel.classList.contains('visible')) {
                         selectionPanel.classList.add('visible');
@@ -1935,6 +1963,7 @@
                         }
                     }
                 } else {
+                    panelToggle.classList.remove('visible');
                     selectionPanel.classList.remove('visible');
                     selectionPanel.classList.remove('collapsed');
                 }
@@ -1985,7 +2014,8 @@
             guestCountInput.addEventListener('input', calculateCost);
 
             // Toggle side panel manually
-            panelToggle.addEventListener('click', () => selectionPanel.classList.toggle('collapsed'));
+            panelToggle.addEventListener('click', () => selectionPanel.classList.remove('collapsed'));
+            if (closePanelBtn) closePanelBtn.addEventListener('click', () => selectionPanel.classList.add('collapsed'));
 
             document.querySelectorAll('.btn-select').forEach(button => {
                 button.addEventListener('click', function () {
@@ -2073,17 +2103,44 @@
 
                 html2canvas(captureArea, {
                     backgroundColor: null,
-                    scale: 2
+                    scale: 2,
+                    windowHeight: captureArea.scrollHeight,
+                    scrollY: -window.scrollY
                 }).then(canvas => {
                     cartActions.style.display = 'flex';
                     captureArea.style.border = origBorder;
                     captureArea.style.borderRadius = origRadius;
                     captureArea.style.backgroundColor = origBg;
 
-                    const link = document.createElement('a');
-                    link.download = 'Tallys-Kitchen-Order.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
+                    const imgUrl = canvas.toDataURL('image/png');
+                    const newWin = window.open('', '_blank');
+                    if (newWin) {
+                        newWin.document.write(`
+                            <html>
+                            <head><title>Tallys Kitchen Order Card</title></head>
+                            <body style="margin:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#f5f5f5;min-height:100vh;font-family:sans-serif;">
+                                <h2 style="color:#0F3821;">Your Order Card</h2>
+                                <p style="margin-bottom:20px;color:#555;">Downloading your order card...</p>
+                                <img src="${imgUrl}" style="max-width:90%;height:auto;box-shadow:0 10px 30px rgba(0,0,0,0.1);border-radius:20px;">
+                                <script>
+                                    setTimeout(() => {
+                                        const a = document.createElement('a');
+                                        a.href = "${imgUrl}";
+                                        a.download = "Tallys-Kitchen-Order.png";
+                                        a.click();
+                                        setTimeout(() => window.close(), 1500);
+                                    }, 500);
+                                <\/script>
+                            </body>
+                            </html>
+                        `);
+                        newWin.document.close();
+                    } else {
+                        const link = document.createElement('a');
+                        link.download = 'Tallys-Kitchen-Order.png';
+                        link.href = imgUrl;
+                        link.click();
+                    }
                 }).catch(err => {
                     cartActions.style.display = 'flex';
                     captureArea.style.border = origBorder;
@@ -2158,24 +2215,24 @@
                     day: 'numeric'
                 });
 
-                let message = `*New Catering Request!* 🍽️\n\n`;
+                let message = `* New Catering Request! * 🍽️\n\n`;
 
-                message += `*Customer Details:*\n`;
+                message += `* Customer Details:*\n`;
                 message += `👤 Name: ${name}\n`;
                 message += `📞 Phone: ${phone}\n\n`;
 
-                message += `*Event Details:*\n`;
+                message += `* Event Details:*\n`;
                 message += `📅 Date: ${formattedDate}\n`;
                 message += `👥 Guests: ${guests}\n`;
                 message += `💰 Estimated Total: ${total}\n\n`;
 
-                message += `*Menu Selection:*\n`;
+                message += `* Menu Selection:*\n`;
                 selectedItems.forEach(item => {
                     const catName = item.category.charAt(0).toUpperCase() + item.category.slice(1);
                     message += `▪️ ${item.name} _(${catName})_\n`;
                 });
 
-                message += `\nCould you please confirm your availability? Thank you!`;
+                message += `\nCould you please confirm your availability ? Thank you!`;
 
                 const phoneNumber = "447766679214";
                 const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
